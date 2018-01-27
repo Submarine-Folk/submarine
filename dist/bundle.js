@@ -120,7 +120,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
 /***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -169,10 +168,10 @@ module.exports = "/**\n* @author       Richard Davey <rich@photonstorm.com>\n* @
 
 
 function preload() {
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('sky', '../assets/sky.png');
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('ground', '../assets/platform.png');
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('star', '../assets/star.png');
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.spritesheet('dude', '../assets/dude.png', 32, 48);
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('Sky', './assets/Sky.jpg');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('ground', './assets/platform.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('star', './assets/star.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.spritesheet('dude', './assets/dude.png', 32, 48);
 }
 
  
@@ -206,8 +205,8 @@ function update() {
 
 
 
-
 function create() {
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.sprite(0, 0, 'Sky');
 }
 
  
@@ -225,7 +224,7 @@ function create() {
 
 
 
-const game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: __WEBPACK_IMPORTED_MODULE_0__preload__["a" /* preload */], create: __WEBPACK_IMPORTED_MODULE_2__create__["a" /* create */], update: __WEBPACK_IMPORTED_MODULE_1__update__["a" /* update */] });
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: __WEBPACK_IMPORTED_MODULE_0__preload__["a" /* preload */], create: __WEBPACK_IMPORTED_MODULE_2__create__["a" /* create */], update: __WEBPACK_IMPORTED_MODULE_1__update__["a" /* update */] });
 
 
 
