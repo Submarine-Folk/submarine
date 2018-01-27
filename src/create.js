@@ -7,17 +7,30 @@ let sprite;
 let weapon;
 let cursors;
 let fireButton;
+let treasure;
+let sonarPing;
 
 function create() {
-
+    sonarPing = this.add.audio('sonar-ping');
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+    
+    
     game.add.sprite(0,0, 'Sky')
+    treasure = game.add.sprite(600, 300, 'treasure');
+    game.physics.arcade.enable(treasure);
+    treasure.enableBody = true;
     
 
     weapon = game.add.weapon(1, 'torpedo');
+    weapon.physicsBodyType = Phaser.Physics.ARCADE;
+    treasure.physicsBodyType = Phaser.Physics.ARCADE;
+    weapon.enableBody = true;
+    
 
+    
     //  The bullet will be automatically killed when it reaches bulletLifespan
     weapon.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
-
+    
     //  The speed at which the bullet is fired
     weapon.bulletSpeed = 300;
     weapon.bulletLifespan = 600;
@@ -25,6 +38,8 @@ function create() {
     //  Speed-up the rate of fire, allowing them to shoot 1 bullet every 60ms
     weapon.fireRate = 50;
     
+    // weapon.body.onCollide.add(hitSprite, this);
+    // treasure.body.onCollide = new Phaser.Signal();
 
 
     sprite = this.add.sprite(400, 300, 'sub');
@@ -55,4 +70,4 @@ function create() {
 
 }
 
-export { create, sprite, cursors, weapon, fireButton }; 
+export { create, sprite, cursors, weapon, fireButton, treasure, sonarPing }; 
