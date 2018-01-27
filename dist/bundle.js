@@ -139,46 +139,35 @@ let treasure;
 let sonarPing;
 
 function create() {
-    sonarPing = this.add.audio('sonar-ping');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.startSystem(Phaser.Physics.ARCADE);
-    
-    
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.sprite(0,0, 'Sky')
+
+    sonarPing = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.audio('sonar-ping');
+    
     treasure = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.sprite(600, 300, 'treasure');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.enable(treasure);
     treasure.enableBody = true;
+    treasure.physicsBodyType = Phaser.Physics.ARCADE;
     
     weapon = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.weapon(1, 'torpedo');
     weapon.physicsBodyType = Phaser.Physics.ARCADE;
-    treasure.physicsBodyType = Phaser.Physics.ARCADE;
     weapon.enableBody = true;
-    
-    //  The bullet will be automatically killed when it reaches bulletLifespan
     weapon.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
-    
-    //  The speed at which the bullet is fired
     weapon.bulletSpeed = 300;
     weapon.bulletLifespan = 600;
     weapon.fireAngle = 0;
     weapon.autofire = 3000;
     weapon.fireRate = 1500;
     
-    // weapon.body.onCollide.add(hitSprite, this);
-    // treasure.body.onCollide = new Phaser.Signal();
-
     sprite = this.add.sprite(400, 300, 'sub');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.enable(sprite);
-
     sprite.anchor.set(0.5);
-
     sprite.body.collideWorldBounds = true;
     sprite.body.drag.set(70);
     sprite.body.maxVelocity.set(100);
 
     //  Tell the Weapon to track the 'player' Sprite
-    //  With no offsets from the position
     //  The 'false' argument tells the weapon not track sprite rotation
-    //  this allows the user to roate the bullet
     weapon.trackSprite(sprite, 0, 0, false);
 
     
@@ -210,11 +199,12 @@ function create() {
 
 function preload() {
 
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('sub', 'assets/Pixel Submarine Pack/submarine green/green submarine/type b/sg-b1.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('sub', 'assets/img/submarine green/green submarine/type b/sg-b1.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('sub-flip', 'assets/img/submarine green/green submarine/type b/sg-b1-flip.png');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('Sky', 'assets/Sky.jpg');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('treasure', 'assets/diamond.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('torpedo', 'assets/img/submarine green/green torpedo type/torpedo normal green a 1.png');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('sonar-ping', 'assets/sounds/SONAR.WAV');
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('torpedo', 'assets/Pixel Submarine Pack/submarine green/green torpedo type/torpedo normal green a 1.png');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].world.setBounds(0, 0, 1280, 780);
 
 }
@@ -248,9 +238,13 @@ function update() {
     } else if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].down.isDown){
         __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */].body.velocity.y = 150;
     } else if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].left.isDown) {
+        __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */].loadTexture('sub-flip', 0);
         __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */].body.velocity.x = -150;
+        __WEBPACK_IMPORTED_MODULE_1__create__["f" /* weapon */].fireAngle = 180;
     } else if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].right.isDown) {
+        __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */].loadTexture('sub', 0);
         __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */].body.velocity.x = 150;
+        __WEBPACK_IMPORTED_MODULE_1__create__["f" /* weapon */].fireAngle = 0;
     }
 
     if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].clockwise.isDown){
@@ -263,7 +257,6 @@ function update() {
 
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["f" /* weapon */].bullets, __WEBPACK_IMPORTED_MODULE_1__create__["e" /* treasure */], function() {
         __WEBPACK_IMPORTED_MODULE_1__create__["f" /* weapon */].killAll();
-        console.log("overlap");
         __WEBPACK_IMPORTED_MODULE_1__create__["c" /* sonarPing */].play();
     });
 };

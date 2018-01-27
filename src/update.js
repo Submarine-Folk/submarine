@@ -16,9 +16,13 @@ function update() {
     } else if (cursors.down.isDown){
         sprite.body.velocity.y = 150;
     } else if (cursors.left.isDown) {
+        sprite.loadTexture('sub-flip', 0);
         sprite.body.velocity.x = -150;
+        weapon.fireAngle = 180;
     } else if (cursors.right.isDown) {
+        sprite.loadTexture('sub', 0);
         sprite.body.velocity.x = 150;
+        weapon.fireAngle = 0;
     }
 
     if (cursors.clockwise.isDown){
@@ -31,7 +35,6 @@ function update() {
 
     game.physics.arcade.overlap(weapon.bullets, treasure, function() {
         weapon.killAll();
-        console.log("overlap");
         sonarPing.play();
     });
 };
