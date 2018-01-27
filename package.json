@@ -1,0 +1,19 @@
+{
+  "name": "phaser-tut",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "phaser": "^2.6.2",
+    "script-loader": "^0.7.2"
+  },
+  "devDependencies": {
+    "webpack": "^3.10.0"
+  }
+}
