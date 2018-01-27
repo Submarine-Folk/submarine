@@ -9,6 +9,7 @@ let cursors;
 let fireButton;
 let treasure;
 let sonarPing;
+let circle;
 
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -21,7 +22,7 @@ function create() {
     treasure.enableBody = true;
     treasure.physicsBodyType = Phaser.Physics.ARCADE;
     
-    weapon = game.add.weapon(1, 'torpedo');
+    weapon = game.add.weapon(1, 'torpedo')
     weapon.physicsBodyType = Phaser.Physics.ARCADE;
     weapon.enableBody = true;
     weapon.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
@@ -31,7 +32,7 @@ function create() {
     weapon.autofire = 3000;
     weapon.fireRate = 1500;
     
-    sprite = this.add.sprite(400, 300, 'sub');
+    sprite = game.add.sprite(400, 300, 'sub');
     game.physics.arcade.enable(sprite);
     sprite.anchor.set(0.5);
     sprite.body.collideWorldBounds = true;
@@ -42,6 +43,13 @@ function create() {
     //  The 'false' argument tells the weapon not track sprite rotation
     weapon.trackSprite(sprite, 0, 0, false);
 
+    circle = game.add.sprite(400, 300, 'circle')
+    game.physics.arcade.enable(circle);
+    circle.anchor.set(0.5);
+    circle.body.collideWorldBounds = true;
+    circle.body.drag.set(70);
+    circle.body.maxVelocity.set(100);
+    // circle.trackSprite(weapon, 0, 0, true)
     
     cursors = this.input.keyboard.addKeys( 
         { 
@@ -53,6 +61,8 @@ function create() {
             'couterClockwise': Phaser.KeyCode.LEFT
         }
     );
+
+    console.log(cursors.clockwise)
 }
 
-export { create, sprite, cursors, weapon, fireButton, treasure, sonarPing }; 
+export { create, sprite, cursors, weapon, fireButton, treasure, sonarPing, circle }; 
