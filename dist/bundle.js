@@ -102,9 +102,9 @@ module.exports = function(src) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return game; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__preload__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__update__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__create__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__preload__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__update__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__create__ = __webpack_require__(2);
 
 
 
@@ -115,81 +115,6 @@ var game = new Phaser.Game(1280, 720, Phaser.AUTO, '', { preload: __WEBPACK_IMPO
 
 /***/ }),
 /* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return preload; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(1);
-
-
-
-
-function preload() {
-
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('sub', 'assets/Pixel Submarine Pack/submarine green/green submarine/type b/sg-b1.png');
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('Sky', 'assets/Sky.jpg');
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('torpedo', 'assets/Pixel Submarine Pack/submarine green/green torpedo type/torpedo normal green a 1.png');
-
-}
-
- 
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return update; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__create__ = __webpack_require__(4);
-
-
-
-
-
-var deltaTime=0; 
-
-function update() {
-
-    //keeps game speed consistent
-    deltaTime = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].time.elapsed/1000; 
-
-    if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].up.isDown)
-    {
-        __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.accelerationFromRotation(__WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */].rotation, 300, __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */].body.acceleration);
-    }
-    else
-    {
-        __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */].body.acceleration.set(0);
-    }
-
-    if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].left.isDown)
-    {
-        __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */].body.angularVelocity = -300;
-    }
-    else if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].right.isDown)
-    {
-        __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */].body.angularVelocity = 300;
-    }
-    else
-    {
-        __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */].body.angularVelocity = 0;
-    }
-
-    if (__WEBPACK_IMPORTED_MODULE_1__create__["c" /* fireButton */].isDown)
-    {
-        __WEBPACK_IMPORTED_MODULE_1__create__["e" /* weapon */].fire();
-    }
-
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].world.wrap(__WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */], 16);
-
-};
-
- 
-
-/***/ }),
-/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -212,38 +137,125 @@ let fireButton;
 function create() {
 
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.sprite(0,0, 'Sky')
+    
 
     weapon = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.weapon(1, 'torpedo');
 
-    //  The bullet will be automatically killed when it leaves the world bounds
-    weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+    //  The bullet will be automatically killed when it reaches bulletLifespan
+    weapon.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
 
     //  The speed at which the bullet is fired
     weapon.bulletSpeed = 300;
-
+    weapon.bulletLifespan = 600;
+    
     //  Speed-up the rate of fire, allowing them to shoot 1 bullet every 60ms
     weapon.fireRate = 50;
+    
+
 
     sprite = this.add.sprite(400, 300, 'sub');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.enable(sprite);
 
     sprite.anchor.set(0.5);
 
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.enable(sprite);
-
+    sprite.body.collideWorldBounds = true;
     sprite.body.drag.set(70);
-    sprite.body.maxVelocity.set(200);
+    sprite.body.maxVelocity.set(100);
 
     //  Tell the Weapon to track the 'player' Sprite
     //  With no offsets from the position
     //  But the 'true' argument tells the weapon to track sprite rotation
     weapon.trackSprite(sprite, 0, 0, true);
 
-    cursors = this.input.keyboard.createCursorKeys();
+    cursors = this.input.keyboard.addKeys( 
+        { 
+            'up': Phaser.KeyCode.W, 
+            'down': Phaser.KeyCode.S, 
+            'left': Phaser.KeyCode.A, 
+            'right': Phaser.KeyCode.D
+        } );
+
 
     fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
 
 
 }
+
+ 
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return preload; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(1);
+
+
+
+
+function preload() {
+
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('sub', 'assets/Pixel Submarine Pack/submarine green/green submarine/type b/sg-b1.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('Sky', 'assets/Sky.jpg');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('torpedo', 'assets/Pixel Submarine Pack/submarine green/green torpedo type/torpedo normal green a 1.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].world.setBounds(0, 0, 1280, 780);
+
+}
+
+ 
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return update; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__create__ = __webpack_require__(2);
+
+
+
+
+
+var deltaTime=0; 
+
+function update() {
+
+    //keeps game speed consistent
+    deltaTime = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].time.elapsed/1000; 
+
+    if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].up.isDown)
+    {
+        __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */].body.velocity.y = -150;
+    }
+    else
+    {
+        __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */].body.acceleration.set(0);
+    }
+
+    if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].left.isDown)
+    {
+        __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */].body.velocity.x = -150;
+    }
+    else if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].right.isDown)
+    {
+        __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */].body.velocity.x = 150;
+    }
+    else if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].down.isDown)
+    {
+        __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */].body.velocity.y = 150;
+    }
+
+    if (__WEBPACK_IMPORTED_MODULE_1__create__["c" /* fireButton */].isDown)
+    {
+        __WEBPACK_IMPORTED_MODULE_1__create__["e" /* weapon */].fire();
+    }
+
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].world.wrap(__WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */], 16);
+
+};
 
  
 
@@ -259,9 +271,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_p2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_p2__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_phaser__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_phaser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_phaser__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__preload__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__update__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__create__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__preload__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__update__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__create__ = __webpack_require__(2);
 
 
 
