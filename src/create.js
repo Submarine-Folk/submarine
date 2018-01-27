@@ -2,16 +2,18 @@
 
 import { game } from './game';
 
-let platforms;
-let sprite;
-let weapon;
-let cursors;
-let fireButton;
-let treasure;
-let sonarPing;
+let platforms,
+    sub,
+    weapon,
+    cursors,
+    fireButton,
+    treasure,
+    sonarPing,
+    sonarSend;
 
 function create() {
     sonarPing = this.add.audio('sonar-ping');
+    sonarSend = this.add.audio('sonar-send');
     game.physics.startSystem(Phaser.Physics.ARCADE);
     
     
@@ -34,24 +36,29 @@ function create() {
     weapon.fireAngle = 0;
     weapon.autofire = 3000;
     weapon.fireRate = 1500;
+
+    let fire = (weapon, bullet) => {
+        sonarSend.play();
+    }
+    weapon.onFire.add(fire);
     
     // weapon.body.onCollide.add(hitSprite, this);
     // treasure.body.onCollide = new Phaser.Signal();
 
-    sprite = this.add.sprite(400, 300, 'sub');
-    game.physics.arcade.enable(sprite);
+    sub = this.add.sprite(400, 300, 'sub');
+    game.physics.arcade.enable(sub);
 
-    sprite.anchor.set(0.5);
+    sub.anchor.set(0.5);
 
-    sprite.body.collideWorldBounds = true;
-    sprite.body.drag.set(70);
-    sprite.body.maxVelocity.set(100);
+    sub.body.collideWorldBounds = true;
+    sub.body.drag.set(70);
+    sub.body.maxVelocity.set(100);
 
     //  Tell the Weapon to track the 'player' Sprite
     //  With no offsets from the position
     //  The 'false' argument tells the weapon not track sprite rotation
     //  this allows the user to roate the bullet
-    weapon.trackSprite(sprite, 0, 0, false);
+    weapon.trackSprite(sub, 0, 0, false);
 
     
     cursors = this.input.keyboard.addKeys( 
@@ -66,4 +73,4 @@ function create() {
     );
 }
 
-export { create, sprite, cursors, weapon, fireButton, treasure, sonarPing }; 
+export { create, sub, cursors, weapon, fireButton, treasure, sonarPing, sonarSend }; 
