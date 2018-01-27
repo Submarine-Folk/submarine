@@ -109,7 +109,7 @@ module.exports = function(src) {
 
 
 
-var game = new Phaser.Game(1280, 720, Phaser.AUTO, '', { preload: __WEBPACK_IMPORTED_MODULE_0__preload__["a" /* preload */], create: __WEBPACK_IMPORTED_MODULE_2__create__["a" /* create */], update: __WEBPACK_IMPORTED_MODULE_1__update__["a" /* update */] });
+var game = new Phaser.Game(1280, 720, Phaser.AUTO, '', { preload: __WEBPACK_IMPORTED_MODULE_0__preload__["a" /* preload */], create: __WEBPACK_IMPORTED_MODULE_2__create__["b" /* create */], update: __WEBPACK_IMPORTED_MODULE_1__update__["a" /* update */] });
 
 
 
@@ -118,17 +118,18 @@ var game = new Phaser.Game(1280, 720, Phaser.AUTO, '', { preload: __WEBPACK_IMPO
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return create; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return sub; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return cursors; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return weapon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return create; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return sub; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return cursors; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return weapon; });
 /* unused harmony export fireButton */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return treasure; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return sonarPing; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return treasure; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return sonarPing; });
 /* unused harmony export sonarSend */
 /* unused harmony export mineWarning */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return treasureFound; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return destroyTreasure; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return treasureFound; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return destroyTreasure; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return circle; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(1);
 
 
@@ -145,7 +146,8 @@ let platforms,
     sonarPing,
     bgMusic,
     destroyTreasure,
-    sonarSend;
+    sonarSend,
+    circle;
 
 function create() {
 
@@ -189,7 +191,7 @@ function create() {
         sonarSend.play();
     }
 
-    weapon = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.weapon(1, 'torpedo');
+    weapon = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.weapon(1, 'soundwave');
     weapon.physicsBodyType = Phaser.Physics.ARCADE;
     weapon.enableBody = true;
     weapon.bulletKillType = Phaser.Weapon.KILL_LIFESPAN; //bullet disappears when it reaches lifespan distance
@@ -201,7 +203,15 @@ function create() {
     weapon.onFire.add(fire); //plays sound on every fire event
     weapon.trackSprite(sub, 0, 0, false); //attaches weapon to sub
 
-    //user input key
+    // sub sonar pointer
+    circle = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.sprite(400, 300, 'caret-circle')
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.enable(circle);
+    circle.anchor.set(0.5);
+    circle.body.collideWorldBounds = true;
+    circle.body.drag.set(70);
+    circle.body.maxVelocity.set(100);
+
+    //user input key    
     cursors = this.input.keyboard.addKeys( 
         { 
             'up': Phaser.KeyCode.W, 
@@ -231,10 +241,13 @@ function create() {
 function preload() {
 
     //image assets
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('sub', 'assets/Pixel Submarine Pack/submarine green/green submarine/type b/sg-b1.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('sub', 'assets/img/submarine green/green submarine/type b/sg-b1.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('sub-flip', 'assets/img/submarine green/green submarine/type b/sg-b1-flip.png');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('Sky', 'assets/Sky.jpg');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('treasure', 'assets/diamond.png');
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('torpedo', 'assets/Pixel Submarine Pack/submarine green/green torpedo type/torpedo normal green a 1.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('torpedo', 'assets/img/submarine green/green torpedo type/torpedo normal green a 1.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('caret-circle', 'assets/img/caret-circle.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('soundwave', 'assets/img/sound.png');
 
     //sound assets
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('sonar-ping', 'assets/sounds/sonar.wav');
@@ -272,34 +285,52 @@ function update() {
     //keeps game speed consistent for slower or faster computers
     deltaTime = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].time.elapsed/1000; 
 
-    //user input
-    if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].up.isDown){
-        __WEBPACK_IMPORTED_MODULE_1__create__["e" /* sub */].body.velocity.y = -150;
-    } else if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].down.isDown){
-        __WEBPACK_IMPORTED_MODULE_1__create__["e" /* sub */].body.velocity.y = 150;
-    } else if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].left.isDown) {
-        __WEBPACK_IMPORTED_MODULE_1__create__["e" /* sub */].body.velocity.x = -150;
-    } else if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].right.isDown) {
-        __WEBPACK_IMPORTED_MODULE_1__create__["e" /* sub */].body.velocity.x = 150;
+    if (__WEBPACK_IMPORTED_MODULE_1__create__["c" /* cursors */].up.isDown){
+        __WEBPACK_IMPORTED_MODULE_1__create__["f" /* sub */].body.velocity.y = -150;
+        __WEBPACK_IMPORTED_MODULE_1__create__["a" /* circle */].body.velocity.y = -150;
+    } else if (__WEBPACK_IMPORTED_MODULE_1__create__["c" /* cursors */].down.isDown){
+        __WEBPACK_IMPORTED_MODULE_1__create__["f" /* sub */].body.velocity.y = 150;
+        __WEBPACK_IMPORTED_MODULE_1__create__["a" /* circle */].body.velocity.y = 150;
+    } else if (__WEBPACK_IMPORTED_MODULE_1__create__["c" /* cursors */].left.isDown) {
+        __WEBPACK_IMPORTED_MODULE_1__create__["f" /* sub */].loadTexture('sub-flip', 0);
+        __WEBPACK_IMPORTED_MODULE_1__create__["f" /* sub */].body.velocity.x = -150;
+        __WEBPACK_IMPORTED_MODULE_1__create__["a" /* circle */].body.velocity.x = -150;
+    } else if (__WEBPACK_IMPORTED_MODULE_1__create__["c" /* cursors */].right.isDown) {
+        __WEBPACK_IMPORTED_MODULE_1__create__["f" /* sub */].loadTexture('sub', 0);
+        __WEBPACK_IMPORTED_MODULE_1__create__["f" /* sub */].body.velocity.x = 150;
+        __WEBPACK_IMPORTED_MODULE_1__create__["a" /* circle */].body.velocity.x = 150;
     }
 
-    if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].clockwise.isDown){
-        __WEBPACK_IMPORTED_MODULE_1__create__["h" /* weapon */].fireAngle += 1;
-    } else if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].couterClockwise.isDown){
-        __WEBPACK_IMPORTED_MODULE_1__create__["h" /* weapon */].fireAngle -= 1;
+    __WEBPACK_IMPORTED_MODULE_1__create__["c" /* cursors */].left.onDown.add(() => {
+        __WEBPACK_IMPORTED_MODULE_1__create__["a" /* circle */].angle = 180;
+        __WEBPACK_IMPORTED_MODULE_1__create__["i" /* weapon */].fireAngle = 180;
+    })
+
+    __WEBPACK_IMPORTED_MODULE_1__create__["c" /* cursors */].right.onDown.add(() => {
+        __WEBPACK_IMPORTED_MODULE_1__create__["a" /* circle */].angle = 0;
+        __WEBPACK_IMPORTED_MODULE_1__create__["i" /* weapon */].fireAngle = 0;
+    })
+
+    if (__WEBPACK_IMPORTED_MODULE_1__create__["c" /* cursors */].clockwise.isDown){
+        __WEBPACK_IMPORTED_MODULE_1__create__["i" /* weapon */].fireAngle += 1;
+        __WEBPACK_IMPORTED_MODULE_1__create__["a" /* circle */].angle += 1;
+    } else if (__WEBPACK_IMPORTED_MODULE_1__create__["c" /* cursors */].couterClockwise.isDown){
+        __WEBPACK_IMPORTED_MODULE_1__create__["i" /* weapon */].fireAngle -= 1;
+        __WEBPACK_IMPORTED_MODULE_1__create__["a" /* circle */].angle -= 1;
     }
 
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].world.wrap(__WEBPACK_IMPORTED_MODULE_1__create__["e" /* sub */], 16);
+
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].world.wrap(__WEBPACK_IMPORTED_MODULE_1__create__["f" /* sub */], 16);
 
     //collisions and overlaps
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["h" /* weapon */].bullets, __WEBPACK_IMPORTED_MODULE_1__create__["f" /* treasure */], function() {
-        __WEBPACK_IMPORTED_MODULE_1__create__["h" /* weapon */].killAll();
-        __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sonarPing */].play();
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["i" /* weapon */].bullets, __WEBPACK_IMPORTED_MODULE_1__create__["g" /* treasure */], function() {
+        __WEBPACK_IMPORTED_MODULE_1__create__["i" /* weapon */].killAll();
+        __WEBPACK_IMPORTED_MODULE_1__create__["e" /* sonarPing */].play();
     });
 
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["e" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["f" /* treasure */], function() {
-        __WEBPACK_IMPORTED_MODULE_1__create__["g" /* treasureFound */].play();
-        Object(__WEBPACK_IMPORTED_MODULE_1__create__["c" /* destroyTreasure */])();
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["f" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["g" /* treasure */], function() {
+        __WEBPACK_IMPORTED_MODULE_1__create__["h" /* treasureFound */].play();
+        Object(__WEBPACK_IMPORTED_MODULE_1__create__["d" /* destroyTreasure */])();
         //TODO: score updates. new treasure appears
     });
 

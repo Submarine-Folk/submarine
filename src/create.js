@@ -13,7 +13,8 @@ let platforms,
     sonarPing,
     bgMusic,
     destroyTreasure,
-    sonarSend;
+    sonarSend,
+    circle;
 
 function create() {
 
@@ -57,7 +58,7 @@ function create() {
         sonarSend.play();
     }
 
-    weapon = game.add.weapon(1, 'torpedo');
+    weapon = game.add.weapon(1, 'soundwave');
     weapon.physicsBodyType = Phaser.Physics.ARCADE;
     weapon.enableBody = true;
     weapon.bulletKillType = Phaser.Weapon.KILL_LIFESPAN; //bullet disappears when it reaches lifespan distance
@@ -69,7 +70,15 @@ function create() {
     weapon.onFire.add(fire); //plays sound on every fire event
     weapon.trackSprite(sub, 0, 0, false); //attaches weapon to sub
 
-    //user input key
+    // sub sonar pointer
+    circle = game.add.sprite(400, 300, 'caret-circle')
+    game.physics.arcade.enable(circle);
+    circle.anchor.set(0.5);
+    circle.body.collideWorldBounds = true;
+    circle.body.drag.set(70);
+    circle.body.maxVelocity.set(100);
+
+    //user input key    
     cursors = this.input.keyboard.addKeys( 
         { 
             'up': Phaser.KeyCode.W, 
@@ -82,4 +91,4 @@ function create() {
     );
 }
 
-export { create, sub, cursors, weapon, fireButton, treasure, sonarPing, sonarSend, mineWarning, treasureFound, destroyTreasure }; 
+export { create, sub, cursors, weapon, fireButton, treasure, sonarPing, sonarSend, mineWarning, treasureFound, destroyTreasure, circle }; 

@@ -5,10 +5,13 @@ import { game } from './game';
 function preload() {
 
     //image assets
-    game.load.image('sub', 'assets/Pixel Submarine Pack/submarine green/green submarine/type b/sg-b1.png');
+    game.load.image('sub', 'assets/img/submarine green/green submarine/type b/sg-b1.png');
+    game.load.image('sub-flip', 'assets/img/submarine green/green submarine/type b/sg-b1-flip.png');
     game.load.image('Sky', 'assets/Sky.jpg');
     game.load.image('treasure', 'assets/diamond.png');
-    game.load.image('torpedo', 'assets/Pixel Submarine Pack/submarine green/green torpedo type/torpedo normal green a 1.png');
+    game.load.image('torpedo', 'assets/img/submarine green/green torpedo type/torpedo normal green a 1.png');
+    game.load.image('caret-circle', 'assets/img/caret-circle.png');
+    game.load.image('soundwave', 'assets/img/sound.png');
 
     //sound assets
     game.load.audio('sonar-ping', 'assets/sounds/sonar.wav');
