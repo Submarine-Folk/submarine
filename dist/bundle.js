@@ -120,11 +120,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-const game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: __WEBPACK_IMPORTED_MODULE_3__preload__["a" /* preload */], create: __WEBPACK_IMPORTED_MODULE_5__create__["a" /* create */], update: __WEBPACK_IMPORTED_MODULE_4__update__["a" /* update */] });
-
-
-
-
 
 /***/ }),
 /* 2 */
@@ -168,10 +163,16 @@ module.exports = "/**\n* @author       Richard Davey <rich@photonstorm.com>\n* @
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return preload; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(11);
+
+
 
 
 function preload() {
-
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('sky', '../assets/sky.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('ground', '../assets/platform.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('star', '../assets/star.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.spritesheet('dude', '../assets/dude.png', 32, 48);
 }
 
  
@@ -183,6 +184,9 @@ function preload() {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return update; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(11);
+
+
 
 
 function update() {
@@ -197,12 +201,33 @@ function update() {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return create; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(11);
+
+
+
 
 
 function create() {
 }
 
  
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return game; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__preload__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__update__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__create__ = __webpack_require__(10);
+
+
+
+
+const game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: __WEBPACK_IMPORTED_MODULE_0__preload__["a" /* preload */], create: __WEBPACK_IMPORTED_MODULE_2__create__["a" /* create */], update: __WEBPACK_IMPORTED_MODULE_1__update__["a" /* update */] });
+
+
 
 /***/ })
 /******/ ]);
