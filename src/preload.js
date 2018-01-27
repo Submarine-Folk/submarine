@@ -4,6 +4,10 @@ import { game } from './game';
 
 function preload() {
 
+    game.load.image('sub', 'assets/Pixel Submarine Pack/submarine green/green submarine/type b/sg-b1.png');
+    game.load.image('Sky', 'assets/Sky.jpg');
+    game.load.image('torpedo', 'assets/Pixel Submarine Pack/submarine green/green torpedo type/torpedo normal green a 1.png');
+
 }
 
 export { preload }; 
