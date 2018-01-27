@@ -12,7 +12,7 @@ function update() {
 
     if (cursors.up.isDown)
     {
-        game.physics.arcade.accelerationFromRotation(sprite.rotation, 300, sprite.body.acceleration);
+        sprite.body.velocity.y = -150;
     }
     else
     {
@@ -21,15 +21,15 @@ function update() {
 
     if (cursors.left.isDown)
     {
-        sprite.body.angularVelocity = -300;
+        sprite.body.velocity.x = -150;
     }
     else if (cursors.right.isDown)
     {
-        sprite.body.angularVelocity = 300;
+        sprite.body.velocity.x = 150;
     }
-    else
+    else if (cursors.down.isDown)
     {
-        sprite.body.angularVelocity = 0;
+        sprite.body.velocity.y = 150;
     }
 
     if (fireButton.isDown)
