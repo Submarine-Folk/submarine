@@ -1,7 +1,7 @@
 'use strict';
 
 import { game } from './game';
-import { sprite, cursors, weapon, fireButton } from './create'
+import { sprite, cursors, weapon, fireButton, treasure, sonarPing } from './create'
 
 var deltaTime=0; 
 
@@ -38,6 +38,13 @@ function update() {
     }
 
     game.world.wrap(sprite, 16);
+
+    game.physics.arcade.overlap(weapon.bullets, treasure, function() {
+        weapon.killAll();
+        console.log("overlap");
+        sonarPing.play();
+    });
+
 
 };
 
