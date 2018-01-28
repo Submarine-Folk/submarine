@@ -2,58 +2,74 @@
 
 import { game } from './game';
 
-let platforms;
-let sprite;
-let weapon;
-let cursors;
-let fireButton;
-let treasure;
-let sonarPing;
+let platforms,
+    sub,
+    weapon,
+    cursors,
+    fireButton,
+    treasure,
+    treasureFound,
+    mineWarning,
+    sonarPing,
+    bgMusic,
+    destroyTreasure,
+    sonarSend;
 
 function create() {
-    sonarPing = this.add.audio('sonar-ping');
-    game.physics.startSystem(Phaser.Physics.ARCADE);
-    
-    
+
+    //background-image
     game.add.sprite(0,0, 'Sky')
+
+    //add game sounds
+    bgMusic = this.add.audio('water-music');
+    sonarPing = this.add.audio('sonar-ping');
+    sonarSend = this.add.audio('sonar-send');
+    treasureFound = this.add.audio('treasure-found');
+    mineWarning = this.add.audio('mine-warning');
+
+    //music
+    bgMusic.play();
+    bgMusic.volume = .75;
+
+    //game physics enable
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    //submarine
+    sub = this.add.sprite(400, 300, 'sub');
+    game.physics.arcade.enable(sub);
+    sub.anchor.set(0.5);
+    sub.body.collideWorldBounds = true;
+    sub.body.drag.set(70);
+    sub.body.maxVelocity.set(100);
+
+    //treasure
     treasure = game.add.sprite(600, 300, 'treasure');
     game.physics.arcade.enable(treasure);
     treasure.enableBody = true;
+    treasure.physicsBodyType = Phaser.Physics.ARCADE;
+
+    destroyTreasure = () => {
+        treasure.destroy();
+    }
     
+    //weapon (sonar)
+    let fire = (weapon, bullet) => {
+        sonarSend.play();
+    }
+
     weapon = game.add.weapon(1, 'torpedo');
     weapon.physicsBodyType = Phaser.Physics.ARCADE;
-    treasure.physicsBodyType = Phaser.Physics.ARCADE;
     weapon.enableBody = true;
-    
-    //  The bullet will be automatically killed when it reaches bulletLifespan
-    weapon.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
-    
-    //  The speed at which the bullet is fired
+    weapon.bulletKillType = Phaser.Weapon.KILL_LIFESPAN; //bullet disappears when it reaches lifespan distance
     weapon.bulletSpeed = 300;
     weapon.bulletLifespan = 600;
     weapon.fireAngle = 0;
     weapon.autofire = 3000;
     weapon.fireRate = 1500;
-    
-    // weapon.body.onCollide.add(hitSprite, this);
-    // treasure.body.onCollide = new Phaser.Signal();
+    weapon.onFire.add(fire); //plays sound on every fire event
+    weapon.trackSprite(sub, 0, 0, false); //attaches weapon to sub
 
-    sprite = this.add.sprite(400, 300, 'sub');
-    game.physics.arcade.enable(sprite);
-
-    sprite.anchor.set(0.5);
-
-    sprite.body.collideWorldBounds = true;
-    sprite.body.drag.set(70);
-    sprite.body.maxVelocity.set(100);
-
-    //  Tell the Weapon to track the 'player' Sprite
-    //  With no offsets from the position
-    //  The 'false' argument tells the weapon not track sprite rotation
-    //  this allows the user to roate the bullet
-    weapon.trackSprite(sprite, 0, 0, false);
-
-    
+    //user input key
     cursors = this.input.keyboard.addKeys( 
         { 
             'up': Phaser.KeyCode.W, 
@@ -66,4 +82,4 @@ function create() {
     );
 }
 
-export { create, sprite, cursors, weapon, fireButton, treasure, sonarPing }; 
+export { create, sub, cursors, weapon, fireButton, treasure, sonarPing, sonarSend, mineWarning, treasureFound, destroyTreasure }; 

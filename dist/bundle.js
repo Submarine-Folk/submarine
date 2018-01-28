@@ -119,69 +119,89 @@ var game = new Phaser.Game(1280, 720, Phaser.AUTO, '', { preload: __WEBPACK_IMPO
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return create; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return sprite; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return sub; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return cursors; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return weapon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return weapon; });
 /* unused harmony export fireButton */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return treasure; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return sonarPing; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return treasure; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return sonarPing; });
+/* unused harmony export sonarSend */
+/* unused harmony export mineWarning */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return treasureFound; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return destroyTreasure; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(1);
 
 
 
 
-let platforms;
-let sprite;
-let weapon;
-let cursors;
-let fireButton;
-let treasure;
-let sonarPing;
+let platforms,
+    sub,
+    weapon,
+    cursors,
+    fireButton,
+    treasure,
+    treasureFound,
+    mineWarning,
+    sonarPing,
+    bgMusic,
+    destroyTreasure,
+    sonarSend;
 
 function create() {
-    sonarPing = this.add.audio('sonar-ping');
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.startSystem(Phaser.Physics.ARCADE);
-    
-    
+
+    //background-image
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.sprite(0,0, 'Sky')
+
+    //add game sounds
+    bgMusic = this.add.audio('water-music');
+    sonarPing = this.add.audio('sonar-ping');
+    sonarSend = this.add.audio('sonar-send');
+    treasureFound = this.add.audio('treasure-found');
+    mineWarning = this.add.audio('mine-warning');
+
+    //music
+    bgMusic.play();
+    bgMusic.volume = .75;
+
+    //game physics enable
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.startSystem(Phaser.Physics.ARCADE);
+
+    //submarine
+    sub = this.add.sprite(400, 300, 'sub');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.enable(sub);
+    sub.anchor.set(0.5);
+    sub.body.collideWorldBounds = true;
+    sub.body.drag.set(70);
+    sub.body.maxVelocity.set(100);
+
+    //treasure
     treasure = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.sprite(600, 300, 'treasure');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.enable(treasure);
     treasure.enableBody = true;
+    treasure.physicsBodyType = Phaser.Physics.ARCADE;
+
+    destroyTreasure = () => {
+        treasure.destroy();
+    }
     
+    //weapon (sonar)
+    let fire = (weapon, bullet) => {
+        sonarSend.play();
+    }
+
     weapon = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.weapon(1, 'torpedo');
     weapon.physicsBodyType = Phaser.Physics.ARCADE;
-    treasure.physicsBodyType = Phaser.Physics.ARCADE;
     weapon.enableBody = true;
-    
-    //  The bullet will be automatically killed when it reaches bulletLifespan
-    weapon.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
-    
-    //  The speed at which the bullet is fired
+    weapon.bulletKillType = Phaser.Weapon.KILL_LIFESPAN; //bullet disappears when it reaches lifespan distance
     weapon.bulletSpeed = 300;
     weapon.bulletLifespan = 600;
     weapon.fireAngle = 0;
     weapon.autofire = 3000;
     weapon.fireRate = 1500;
-    
-    // weapon.body.onCollide.add(hitSprite, this);
-    // treasure.body.onCollide = new Phaser.Signal();
+    weapon.onFire.add(fire); //plays sound on every fire event
+    weapon.trackSprite(sub, 0, 0, false); //attaches weapon to sub
 
-    sprite = this.add.sprite(400, 300, 'sub');
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.enable(sprite);
-
-    sprite.anchor.set(0.5);
-
-    sprite.body.collideWorldBounds = true;
-    sprite.body.drag.set(70);
-    sprite.body.maxVelocity.set(100);
-
-    //  Tell the Weapon to track the 'player' Sprite
-    //  With no offsets from the position
-    //  The 'false' argument tells the weapon not track sprite rotation
-    //  this allows the user to roate the bullet
-    weapon.trackSprite(sprite, 0, 0, false);
-
-    
+    //user input key
     cursors = this.input.keyboard.addKeys( 
         { 
             'up': Phaser.KeyCode.W, 
@@ -210,11 +230,20 @@ function create() {
 
 function preload() {
 
+    //image assets
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('sub', 'assets/Pixel Submarine Pack/submarine green/green submarine/type b/sg-b1.png');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('Sky', 'assets/Sky.jpg');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('treasure', 'assets/diamond.png');
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('sonar-ping', 'assets/sounds/SONAR.WAV');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('torpedo', 'assets/Pixel Submarine Pack/submarine green/green torpedo type/torpedo normal green a 1.png');
+
+    //sound assets
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('sonar-ping', 'assets/sounds/sonar.wav');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('sonar-send', 'assets/sounds/wubwub.mp3');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('mine-warning', 'assets/sounds/mine-warning.wav');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('treasure-found', 'assets/sounds/treasure.mp3');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('water-music', 'assets/sounds/watery_cave.mp3');
+
+    //game boundaries
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].world.setBounds(0, 0, 1280, 780);
 
 }
@@ -240,32 +269,40 @@ var deltaTime=0;
 
 function update() {
 
-    //keeps game speed consistent
+    //keeps game speed consistent for slower or faster computers
     deltaTime = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].time.elapsed/1000; 
 
+    //user input
     if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].up.isDown){
-        __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */].body.velocity.y = -150;
+        __WEBPACK_IMPORTED_MODULE_1__create__["e" /* sub */].body.velocity.y = -150;
     } else if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].down.isDown){
-        __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */].body.velocity.y = 150;
+        __WEBPACK_IMPORTED_MODULE_1__create__["e" /* sub */].body.velocity.y = 150;
     } else if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].left.isDown) {
-        __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */].body.velocity.x = -150;
+        __WEBPACK_IMPORTED_MODULE_1__create__["e" /* sub */].body.velocity.x = -150;
     } else if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].right.isDown) {
-        __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */].body.velocity.x = 150;
+        __WEBPACK_IMPORTED_MODULE_1__create__["e" /* sub */].body.velocity.x = 150;
     }
 
     if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].clockwise.isDown){
-        __WEBPACK_IMPORTED_MODULE_1__create__["f" /* weapon */].fireAngle += 1;
+        __WEBPACK_IMPORTED_MODULE_1__create__["h" /* weapon */].fireAngle += 1;
     } else if (__WEBPACK_IMPORTED_MODULE_1__create__["b" /* cursors */].couterClockwise.isDown){
-        __WEBPACK_IMPORTED_MODULE_1__create__["f" /* weapon */].fireAngle -= 1;
+        __WEBPACK_IMPORTED_MODULE_1__create__["h" /* weapon */].fireAngle -= 1;
     }
 
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].world.wrap(__WEBPACK_IMPORTED_MODULE_1__create__["d" /* sprite */], 16);
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].world.wrap(__WEBPACK_IMPORTED_MODULE_1__create__["e" /* sub */], 16);
 
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["f" /* weapon */].bullets, __WEBPACK_IMPORTED_MODULE_1__create__["e" /* treasure */], function() {
-        __WEBPACK_IMPORTED_MODULE_1__create__["f" /* weapon */].killAll();
-        console.log("overlap");
-        __WEBPACK_IMPORTED_MODULE_1__create__["c" /* sonarPing */].play();
+    //collisions and overlaps
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["h" /* weapon */].bullets, __WEBPACK_IMPORTED_MODULE_1__create__["f" /* treasure */], function() {
+        __WEBPACK_IMPORTED_MODULE_1__create__["h" /* weapon */].killAll();
+        __WEBPACK_IMPORTED_MODULE_1__create__["d" /* sonarPing */].play();
     });
+
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["e" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["f" /* treasure */], function() {
+        __WEBPACK_IMPORTED_MODULE_1__create__["g" /* treasureFound */].play();
+        Object(__WEBPACK_IMPORTED_MODULE_1__create__["c" /* destroyTreasure */])();
+        //TODO: score updates. new treasure appears
+    });
+
 };
 
  

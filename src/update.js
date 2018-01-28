@@ -2,23 +2,24 @@
 'use strict';
 
 import { game } from './game';
-import { sprite, cursors, weapon, fireButton, treasure, sonarPing } from './create'
+import { sub, cursors, weapon, fireButton, treasure, sonarPing, sonarSend, mineWarning, treasureFound, destroyTreasure } from './create'
 
 var deltaTime=0; 
 
 function update() {
 
-    //keeps game speed consistent
+    //keeps game speed consistent for slower or faster computers
     deltaTime = game.time.elapsed/1000; 
 
+    //user input
     if (cursors.up.isDown){
-        sprite.body.velocity.y = -150;
+        sub.body.velocity.y = -150;
     } else if (cursors.down.isDown){
-        sprite.body.velocity.y = 150;
+        sub.body.velocity.y = 150;
     } else if (cursors.left.isDown) {
-        sprite.body.velocity.x = -150;
+        sub.body.velocity.x = -150;
     } else if (cursors.right.isDown) {
-        sprite.body.velocity.x = 150;
+        sub.body.velocity.x = 150;
     }
 
     if (cursors.clockwise.isDown){
@@ -27,13 +28,20 @@ function update() {
         weapon.fireAngle -= 1;
     }
 
-    game.world.wrap(sprite, 16);
+    game.world.wrap(sub, 16);
 
+    //collisions and overlaps
     game.physics.arcade.overlap(weapon.bullets, treasure, function() {
         weapon.killAll();
-        console.log("overlap");
         sonarPing.play();
     });
+
+    game.physics.arcade.overlap(sub, treasure, function() {
+        treasureFound.play();
+        destroyTreasure();
+        //TODO: score updates. new treasure appears
+    });
+
 };
 
 export { update }; 
