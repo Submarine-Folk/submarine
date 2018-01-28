@@ -15,26 +15,20 @@ function update() {
 
     if (cursors.up.isDown){
         sub.body.velocity.y = -150;
-        circle.body.velocity.y = -150;
     } else if (cursors.down.isDown){
         sub.body.velocity.y = 150;
-        circle.body.velocity.y = 150;
     } else if (cursors.left.isDown) {
         sub.loadTexture('sub-flip', 0);
         sub.body.velocity.x = -150;
-        circle.body.velocity.x = -150;
     } else if (cursors.right.isDown) {
         sub.loadTexture('sub', 0);
         sub.body.velocity.x = 150;
-        circle.body.velocity.x = 150;
     }
 
     if (cursors.clockwise.isDown){
         weapon.fireAngle += 1;
-        circle.angle += 1;
     } else if (cursors.couterClockwise.isDown){
         weapon.fireAngle -= 1;
-        circle.angle -= 1;
     }
 
     game.physics.arcade.collide(sub, floor_walls);
