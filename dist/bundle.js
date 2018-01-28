@@ -119,18 +119,18 @@ var game = new Phaser.Game(1280, 720, Phaser.AUTO, '', { preload: __WEBPACK_IMPO
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return create; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return sub; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return sub; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return cursors; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return weapon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return weapon; });
 /* unused harmony export fireButton */
 /* unused harmony export treasure */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return mineGroup; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return treasureGroup; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return sonarPing; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return treasureGroup; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return sonarPing; });
 /* unused harmony export sonarSend */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return destroySub; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return mineWarning; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return treasureFound; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return treasureFound; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return destroyTreasure; });
 /* unused harmony export circle */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return floor_walls; });
@@ -138,8 +138,9 @@ var game = new Phaser.Game(1280, 720, Phaser.AUTO, '', { preload: __WEBPACK_IMPO
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return right_walls; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return branches; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return algaes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return weeds; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return weeds; });
 /* unused harmony export explosionSound */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return scoreText; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(1);
 
 
@@ -168,7 +169,8 @@ let platforms,
     algaes, algae,
     branches, branch,
     weeds, weed,
-    explosionSound;
+    explosionSound,
+    scoreText;
 
 function create() {
 
@@ -389,6 +391,8 @@ function create() {
 
         }
     }
+
+    scoreText = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.text(500, 50, 'SCORE: 0', { font: '36px Arial', fill: '#ffffff' });
 }
 
  
@@ -459,6 +463,7 @@ function preload() {
 
 
 var deltaTime=0; 
+var score = 0;
 
 function update() {
 
@@ -466,50 +471,52 @@ function update() {
     deltaTime = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].time.elapsed/1000; 
 
     if (__WEBPACK_IMPORTED_MODULE_1__create__["d" /* cursors */].up.isDown){
-        __WEBPACK_IMPORTED_MODULE_1__create__["m" /* sub */].body.velocity.y = -150;
+        __WEBPACK_IMPORTED_MODULE_1__create__["n" /* sub */].body.velocity.y = -150;
     } else if (__WEBPACK_IMPORTED_MODULE_1__create__["d" /* cursors */].down.isDown){
-        __WEBPACK_IMPORTED_MODULE_1__create__["m" /* sub */].body.velocity.y = 150;
+        __WEBPACK_IMPORTED_MODULE_1__create__["n" /* sub */].body.velocity.y = 150;
     } else if (__WEBPACK_IMPORTED_MODULE_1__create__["d" /* cursors */].left.isDown) {
-        __WEBPACK_IMPORTED_MODULE_1__create__["m" /* sub */].loadTexture('sub-flip', 0);
-        __WEBPACK_IMPORTED_MODULE_1__create__["m" /* sub */].body.velocity.x = -150;
+        __WEBPACK_IMPORTED_MODULE_1__create__["n" /* sub */].loadTexture('sub-flip', 0);
+        __WEBPACK_IMPORTED_MODULE_1__create__["n" /* sub */].body.velocity.x = -150;
     } else if (__WEBPACK_IMPORTED_MODULE_1__create__["d" /* cursors */].right.isDown) {
-        __WEBPACK_IMPORTED_MODULE_1__create__["m" /* sub */].loadTexture('sub', 0);
-        __WEBPACK_IMPORTED_MODULE_1__create__["m" /* sub */].body.velocity.x = 150;
+        __WEBPACK_IMPORTED_MODULE_1__create__["n" /* sub */].loadTexture('sub', 0);
+        __WEBPACK_IMPORTED_MODULE_1__create__["n" /* sub */].body.velocity.x = 150;
     }
 
     if (__WEBPACK_IMPORTED_MODULE_1__create__["d" /* cursors */].clockwise.isDown){
-        __WEBPACK_IMPORTED_MODULE_1__create__["p" /* weapon */].fireAngle += 1;
+        __WEBPACK_IMPORTED_MODULE_1__create__["q" /* weapon */].fireAngle += 1;
     } else if (__WEBPACK_IMPORTED_MODULE_1__create__["d" /* cursors */].couterClockwise.isDown){
-        __WEBPACK_IMPORTED_MODULE_1__create__["p" /* weapon */].fireAngle -= 1;
+        __WEBPACK_IMPORTED_MODULE_1__create__["q" /* weapon */].fireAngle -= 1;
     }
 
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.collide(__WEBPACK_IMPORTED_MODULE_1__create__["m" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["g" /* floor_walls */]);
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.collide(__WEBPACK_IMPORTED_MODULE_1__create__["m" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["h" /* left_walls */]);
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.collide(__WEBPACK_IMPORTED_MODULE_1__create__["m" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["k" /* right_walls */]);
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.collide(__WEBPACK_IMPORTED_MODULE_1__create__["m" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["a" /* algaes */]);
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.collide(__WEBPACK_IMPORTED_MODULE_1__create__["m" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["b" /* branches */]);
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.collide(__WEBPACK_IMPORTED_MODULE_1__create__["m" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["q" /* weeds */]);
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.collide(__WEBPACK_IMPORTED_MODULE_1__create__["n" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["g" /* floor_walls */]);
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.collide(__WEBPACK_IMPORTED_MODULE_1__create__["n" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["h" /* left_walls */]);
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.collide(__WEBPACK_IMPORTED_MODULE_1__create__["n" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["k" /* right_walls */]);
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.collide(__WEBPACK_IMPORTED_MODULE_1__create__["n" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["a" /* algaes */]);
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.collide(__WEBPACK_IMPORTED_MODULE_1__create__["n" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["b" /* branches */]);
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.collide(__WEBPACK_IMPORTED_MODULE_1__create__["n" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["r" /* weeds */]);
 
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].world.wrap(__WEBPACK_IMPORTED_MODULE_1__create__["m" /* sub */], 16);
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].world.wrap(__WEBPACK_IMPORTED_MODULE_1__create__["n" /* sub */], 16);
 
     //collisions and overlaps
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["p" /* weapon */].bullets, __WEBPACK_IMPORTED_MODULE_1__create__["o" /* treasureGroup */], function() {
-        __WEBPACK_IMPORTED_MODULE_1__create__["p" /* weapon */].killAll();
-        __WEBPACK_IMPORTED_MODULE_1__create__["l" /* sonarPing */].play();
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["q" /* weapon */].bullets, __WEBPACK_IMPORTED_MODULE_1__create__["p" /* treasureGroup */], function() {
+        __WEBPACK_IMPORTED_MODULE_1__create__["q" /* weapon */].killAll();
+        __WEBPACK_IMPORTED_MODULE_1__create__["m" /* sonarPing */].play();
     });
 
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["p" /* weapon */].bullets, __WEBPACK_IMPORTED_MODULE_1__create__["i" /* mineGroup */], function() {
-        __WEBPACK_IMPORTED_MODULE_1__create__["p" /* weapon */].killAll();
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["q" /* weapon */].bullets, __WEBPACK_IMPORTED_MODULE_1__create__["i" /* mineGroup */], function() {
+        __WEBPACK_IMPORTED_MODULE_1__create__["q" /* weapon */].killAll();
         __WEBPACK_IMPORTED_MODULE_1__create__["j" /* mineWarning */].play();
     });
 
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["m" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["i" /* mineGroup */], function() {
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["n" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["i" /* mineGroup */], function() {
         Object(__WEBPACK_IMPORTED_MODULE_1__create__["e" /* destroySub */])();
         //TODO: EXPLOSION ANIMATION
     });
 
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["m" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["o" /* treasureGroup */], function(a,b) {
-        __WEBPACK_IMPORTED_MODULE_1__create__["n" /* treasureFound */].play();
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["n" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["p" /* treasureGroup */], function(a,b) {
+        __WEBPACK_IMPORTED_MODULE_1__create__["o" /* treasureFound */].play();
+        score+= 10;
+        __WEBPACK_IMPORTED_MODULE_1__create__["l" /* scoreText */].setText('SCORE: '+score)
         Object(__WEBPACK_IMPORTED_MODULE_1__create__["f" /* destroyTreasure */])(a,b);
         //TODO: score updates. new treasure appears
     });

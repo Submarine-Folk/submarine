@@ -25,7 +25,8 @@ let platforms,
     algaes, algae,
     branches, branch,
     weeds, weed,
-    explosionSound;
+    explosionSound,
+    scoreText;
 
 function create() {
 
@@ -246,8 +247,10 @@ function create() {
 
         }
     }
+
+    scoreText = game.add.text(500, 50, 'SCORE: 0', { font: '36px Arial', fill: '#ffffff' });
 }
 
 export { create, sub, cursors, weapon, fireButton, treasure, mineGroup, treasureGroup, sonarPing, sonarSend, destroySub, 
           mineWarning, treasureFound, destroyTreasure, circle, floor_walls, left_walls, right_walls,
-          branches, algaes, weeds, explosionSound }; 
+          branches, algaes, weeds, explosionSound, scoreText }; 
