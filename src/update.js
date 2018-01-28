@@ -4,9 +4,10 @@
 import { game } from './game';
 import { sub, cursors, weapon, fireButton, treasure, sonarPing, mine, mineGroup, treasureGroup,
     sonarSend, mineWarning, treasureFound, destroyTreasure, circle, destroySub,
-    floor_walls, left_walls, right_walls, branches, algaes, weeds, explosionSound } from './create'
+    floor_walls, left_walls, right_walls, branches, algaes, weeds, explosionSound, scoreText } from './create'
 
 var deltaTime=0; 
+var score = 0;
 
 function update() {
 
@@ -58,6 +59,8 @@ function update() {
 
     game.physics.arcade.overlap(sub, treasureGroup, function(a,b) {
         treasureFound.play();
+        score+= 10;
+        scoreText.setText('SCORE: '+score)
         destroyTreasure(a,b);
         //TODO: score updates. new treasure appears
     });
