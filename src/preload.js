@@ -13,7 +13,6 @@ function preload() {
     game.load.image('Sky', 'assets/Sky.jpg');
     game.load.image('treasure', 'assets/diamond.png');
     game.load.image('torpedo', 'assets/img/submarine green/green torpedo type/torpedo normal green a 1.png');
-<<<<<<< HEAD
     game.load.image('caret-circle', 'assets/img/caret-circle.png');
     game.load.image('soundwave', 'assets/img/sound.png');
 
@@ -26,11 +25,6 @@ function preload() {
 
     //game boundaries
     game.world.setBounds(0, 0, 1280, 780);
-=======
-    game.load.audio('sonar-ping', 'assets/sounds/SONAR.WAV');
-    game.world.setBounds(0, 0, 1280, 720);
->>>>>>> changed sonar direction img
-
 }
 
 export { preload }; 

@@ -103,7 +103,6 @@ module.exports = function(src) {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return game; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__preload__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__preload___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__preload__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__update__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__create__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__create___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__create__);
@@ -111,7 +110,7 @@ module.exports = function(src) {
 
 
 
-var game = new Phaser.Game(1280, 720, Phaser.AUTO, '', { preload: __WEBPACK_IMPORTED_MODULE_0__preload__["preload"], create: __WEBPACK_IMPORTED_MODULE_2__create__["create"], update: __WEBPACK_IMPORTED_MODULE_1__update__["a" /* update */] });
+var game = new Phaser.Game(1280, 720, Phaser.AUTO, '', { preload: __WEBPACK_IMPORTED_MODULE_0__preload__["a" /* preload */], create: __WEBPACK_IMPORTED_MODULE_2__create__["create"], update: __WEBPACK_IMPORTED_MODULE_1__update__["a" /* update */] });
 
 
 
@@ -120,14 +119,46 @@ var game = new Phaser.Game(1280, 720, Phaser.AUTO, '', { preload: __WEBPACK_IMPO
 /***/ (function(module, __webpack_exports__) {
 
 "use strict";
-throw new Error("Module parse failed: Unexpected token (56:2)\nYou may need an appropriate loader to handle this file type.\n|     }\n|     \n| <<<<<<< HEAD\n|     //weapon (sonar)\n|     let fire = (weapon, bullet) => {");
+throw new Error("Module parse failed: Unexpected token (5:0)\nYou may need an appropriate loader to handle this file type.\n| import { game } from './game';\n| \n| <<<<<<< HEAD\n| let platforms,\n|     sub,");
 
 /***/ }),
 /* 3 */
-/***/ (function(module, __webpack_exports__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-throw new Error("Module parse failed: Unexpected token (16:0)\nYou may need an appropriate loader to handle this file type.\n|     game.load.image('treasure', 'assets/diamond.png');\n|     game.load.image('torpedo', 'assets/img/submarine green/green torpedo type/torpedo normal green a 1.png');\n| <<<<<<< HEAD\n|     game.load.image('caret-circle', 'assets/img/caret-circle.png');\n|     game.load.image('soundwave', 'assets/img/sound.png');");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return preload; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(1);
+
+
+
+
+function preload() {
+
+    //image assets
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('sub', 'assets/img/submarine green/green submarine/type b/sg-b1.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('sub-flip', 'assets/img/submarine green/green submarine/type b/sg-b1-flip.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('circle', 'assets/img/circle.png')
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('caret-circle', 'assets/img/caret-circle.png')
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('soundwave', 'assets/img/sound.png')
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('Sky', 'assets/Sky.jpg');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('treasure', 'assets/diamond.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('torpedo', 'assets/img/submarine green/green torpedo type/torpedo normal green a 1.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('caret-circle', 'assets/img/caret-circle.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('soundwave', 'assets/img/sound.png');
+
+    //sound assets
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('sonar-ping', 'assets/sounds/sonar.wav');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('sonar-send', 'assets/sounds/wubwub.mp3');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('mine-warning', 'assets/sounds/mine-warning.wav');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('treasure-found', 'assets/sounds/treasure.mp3');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('water-music', 'assets/sounds/watery_cave.mp3');
+
+    //game boundaries
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].world.setBounds(0, 0, 1280, 780);
+}
+
+ 
+
 
 /***/ }),
 /* 4 */
