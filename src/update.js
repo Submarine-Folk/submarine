@@ -64,7 +64,7 @@ function update() {
         score+= 10;
         destroyTreasure(a,b);
 
-        if (score >= 10){
+        if (score >= 40){
             score = 0;
             winRestart();
         }
