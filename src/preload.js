@@ -15,6 +15,8 @@ function preload() {
     game.load.image('torpedo', 'assets/img/submarine green/green torpedo type/torpedo normal green a 1.png');
     game.load.image('caret-circle', 'assets/img/caret-circle.png');
     game.load.image('soundwave', 'assets/img/sound.png');
+    game.load.image('background', 'assets/img/background.png');
+    game.load.image('midground', 'assets/img/midground.png');
 
     //sound assets
     game.load.audio('sonar-ping', 'assets/sounds/sonar.wav');
