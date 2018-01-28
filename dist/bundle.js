@@ -213,12 +213,9 @@ function create() {
         mine.enableBody = true;
         __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.enable(mine, Phaser.Physics.ARCADE);
         console.log(mine.body);
-        mine.alpha = 1;
+        mine.alpha = 0;
     }
 
-
-    //mine
-    // mine = game.add.sprite(800, 300, 'mine');
 
     //submarine
     sub = this.add.sprite(100, 100, 'sub');
@@ -236,7 +233,7 @@ function create() {
         treasure = treasureGroup.create(200 * i, __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].rnd.integerInRange(400, 650), 'treasure');
         treasure.enableBody = true;
         __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.enable(treasure, Phaser.Physics.ARCADE);
-        treasure.alpha = 1;
+        treasure.alpha = 0;
     }
 
     destroyTreasure = (a,b) => {
