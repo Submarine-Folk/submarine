@@ -8,12 +8,16 @@ let platforms,
     cursors,
     fireButton,
     treasure,
+    treasureGroup,
     treasureFound,
     mineWarning,
     sonarPing,
     bgMusic,
+    mine,
+    destroySub,
     destroyTreasure,
     sonarSend,
+    mineGroup,
     circle;
 
 function create() {
@@ -42,22 +46,60 @@ function create() {
     //game physics enable
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
+
+    mineGroup = game.add.group();
+
+    for (var i = 0; i < 20; i++) {
+        mine = mineGroup.create(100 * i, game.rnd.integerInRange(200, 500), 'mine');
+        mine.enableBody = true;
+        game.physics.arcade.enable(mine, Phaser.Physics.ARCADE);
+        console.log(mine.body);
+        mine.alpha = 0;
+    }
+
+
+    //mine
+    // mine = game.add.sprite(800, 300, 'mine');
+
     //submarine
-    sub = this.add.sprite(400, 300, 'sub');
+    sub = this.add.sprite(100, 100, 'sub');
     game.physics.arcade.enable(sub);
     sub.anchor.set(0.5);
     sub.body.collideWorldBounds = true;
     sub.body.drag.set(70);
     sub.body.maxVelocity.set(100);
 
-    //treasure
-    treasure = game.add.sprite(600, 300, 'treasure');
-    game.physics.arcade.enable(treasure);
-    treasure.enableBody = true;
-    treasure.physicsBodyType = Phaser.Physics.ARCADE;
+    //explosion
+    
+    treasureGroup = game.add.group();
 
-    destroyTreasure = () => {
-        treasure.destroy();
+    for (var i = 0; i < 4; i++) {
+        treasure = treasureGroup.create(200 * i, game.rnd.integerInRange(400, 650), 'treasure');
+        treasure.enableBody = true;
+        game.physics.arcade.enable(treasure, Phaser.Physics.ARCADE);
+        treasure.alpha = 0;
+    }
+
+
+    //treasure
+    // treasure = game.add.sprite(600, 300, 'treasure');
+    // game.physics.arcade.enable(treasure);
+    // treasure.enableBody = true;
+    // treasure.physicsBodyType = Phaser.Physics.ARCADE;
+
+    destroyTreasure = (a,b) => {
+        console.log(treasureGroup,"A>>>B", a,b);
+        treasureGroup.remove(b);
+    }
+
+    destroySub = () => {
+        let xPositionSub = sub.world.x;
+        let yPositionSub = sub.world.y;
+        console.log(xPositionSub, yPositionSub);
+        game.add.sprite(xPositionSub, yPositionSub, 'explosion');
+        sub.destroy();
+        circle.destroy();
+        weapon.destroy();
     }
     
     //weapon (sonar)
@@ -78,7 +120,7 @@ function create() {
     weapon.onFire.add(fire); //plays sound on every fire event
     weapon.trackSprite(sub, 0, 0, false); //attaches weapon to sub
 
-    circle = game.add.sprite(400, 300, 'caret-circle')
+    circle = game.add.sprite(100, 100, 'caret-circle')
     game.physics.arcade.enable(circle);
     circle.anchor.set(0.5);
     circle.body.collideWorldBounds = true;
@@ -100,4 +142,4 @@ function create() {
     console.log(cursors.clockwise)
 }
 
-export { create, sub, cursors, weapon, fireButton, treasure, sonarPing, sonarSend, mineWarning, treasureFound, destroyTreasure, circle }; 
+export { create, sub, cursors, weapon, fireButton, treasure, sonarPing, mineGroup, sonarSend, treasureGroup, mineWarning, treasureFound, destroyTreasure, destroySub, circle }; 
