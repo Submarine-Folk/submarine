@@ -243,6 +243,27 @@ function create() {
         }
     );
 
+    let presses = []
+
+    cursors.left.onDown.add(() => {
+        presses.push('left')
+
+        if(presses[presses.length - 2] !== 'left'){
+            circle.angle = 180;
+            weapon.fireAngle = 180;
+        }
+    })
+
+    cursors.right.onDown.add(() => {
+        presses.push('right')
+
+        if(presses[presses.length - 2] !== 'right'  && presses.length !== 1){
+            circle.angle = 0;
+            weapon.fireAngle = 0;
+        }
+    })
+
+
     // Create 6 groups that will contain our objects
     floor_walls = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.group();
     right_walls = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.group();
@@ -432,16 +453,6 @@ function update() {
         __WEBPACK_IMPORTED_MODULE_1__create__["k" /* sub */].body.velocity.x = 150;
         __WEBPACK_IMPORTED_MODULE_1__create__["c" /* circle */].body.velocity.x = 150;
     }
-
-    __WEBPACK_IMPORTED_MODULE_1__create__["e" /* cursors */].left.onDown.add(() => {
-        __WEBPACK_IMPORTED_MODULE_1__create__["c" /* circle */].angle = 180;
-        __WEBPACK_IMPORTED_MODULE_1__create__["n" /* weapon */].fireAngle = 180;
-    })
-
-    __WEBPACK_IMPORTED_MODULE_1__create__["e" /* cursors */].right.onDown.add(() => {
-        __WEBPACK_IMPORTED_MODULE_1__create__["c" /* circle */].angle = 0;
-        __WEBPACK_IMPORTED_MODULE_1__create__["n" /* weapon */].fireAngle = 0;
-    })
 
     if (__WEBPACK_IMPORTED_MODULE_1__create__["e" /* cursors */].clockwise.isDown){
         __WEBPACK_IMPORTED_MODULE_1__create__["n" /* weapon */].fireAngle += 1;

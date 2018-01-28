@@ -104,6 +104,27 @@ function create() {
         }
     );
 
+    let presses = []
+
+    cursors.left.onDown.add(() => {
+        presses.push('left')
+
+        if(presses[presses.length - 2] !== 'left'){
+            circle.angle = 180;
+            weapon.fireAngle = 180;
+        }
+    })
+
+    cursors.right.onDown.add(() => {
+        presses.push('right')
+
+        if(presses[presses.length - 2] !== 'right'  && presses.length !== 1){
+            circle.angle = 0;
+            weapon.fireAngle = 0;
+        }
+    })
+
+
     // Create 6 groups that will contain our objects
     floor_walls = game.add.group();
     right_walls = game.add.group();
