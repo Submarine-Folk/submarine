@@ -24,7 +24,8 @@ let platforms,
     left_walls, left_wall,
     algaes, algae,
     branches, branch,
-    weeds, weed;
+    weeds, weed,
+    explosionSound;
 
 function create() {
 
@@ -42,6 +43,7 @@ function create() {
     sonarSend = this.add.audio('sonar-send');
     treasureFound = this.add.audio('treasure-found');
     mineWarning = this.add.audio('mine-warning');
+    explosionSound = this.add.audio('explosion-sound');
       
     sonarPing.volume = .2;
   
@@ -86,26 +88,14 @@ function create() {
         treasure.alpha = 0;
     }
 
-
-    //treasure
-    // treasure = game.add.sprite(600, 300, 'treasure');
-    // game.physics.arcade.enable(treasure);
-    // treasure.enableBody = true;
-    // treasure.physicsBodyType = Phaser.Physics.ARCADE;
-
     destroyTreasure = (a,b) => {
         console.log(treasureGroup,"A>>>B", a,b);
         treasureGroup.remove(b);
     }
 
     destroySub = () => {
-        let xPositionSub = sub.world.x;
-        let yPositionSub = sub.world.y;
-        console.log(xPositionSub, yPositionSub);
-        game.add.sprite(xPositionSub, yPositionSub, 'explosion');
-        sub.destroy();
-        circle.destroy();
-        weapon.destroy();
+        explosionSound.play();
+        setTimeout(game.state.start('default'), 2000);
     }
     
     //weapon (sonar)
@@ -172,8 +162,8 @@ function create() {
       '................................',
       'l..............................l',
       'l..............................l',
+      'l..............................l',
       'l..ffffff...fffff...ff..ff.....r',
-      'l....ff.....f...f...f.ff.f.....r',
       'l....ff.....fffff...f.ff.f.....r',
       'l....ff.....f...f...f.ff.f.....r',
       'l..ffff.....f...f...f....f.....r',
@@ -256,10 +246,8 @@ function create() {
 
         }
     }
-
-    console.log(cursors.clockwise)
 }
 
 export { create, sub, cursors, weapon, fireButton, treasure, mineGroup, treasureGroup, sonarPing, sonarSend, destroySub, 
           mineWarning, treasureFound, destroyTreasure, circle, floor_walls, left_walls, right_walls,
-          branches, algaes, weeds }; 
+          branches, algaes, weeds, explosionSound }; 
