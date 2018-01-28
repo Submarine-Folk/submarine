@@ -208,12 +208,12 @@ function create() {
 
     mineGroup = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.group();
 
-    for (var i = 0; i < 20; i++) {
-        mine = mineGroup.create(100 * i, __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].rnd.integerInRange(200, 500), 'mine');
+    for (var i = 1; i < 20; i++) {
+        mine = mineGroup.create(87 * i, __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].rnd.integerInRange(200, 500), 'mine');
         mine.enableBody = true;
         __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.enable(mine, Phaser.Physics.ARCADE);
         console.log(mine.body);
-        mine.alpha = 0;
+        mine.alpha = 1;
     }
 
 
@@ -232,11 +232,11 @@ function create() {
     
     treasureGroup = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.group();
 
-    for (var i = 0; i < 6; i++) {
+    for (var i = 1; i < 7; i++) {
         treasure = treasureGroup.create(200 * i, __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].rnd.integerInRange(400, 650), 'treasure');
         treasure.enableBody = true;
         __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.enable(treasure, Phaser.Physics.ARCADE);
-        treasure.alpha = 0;
+        treasure.alpha = 1;
     }
 
     destroyTreasure = (a,b) => {
@@ -521,6 +521,7 @@ function update() {
     });
 
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["n" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["i" /* mineGroup */], function() {
+        score = 0;
         Object(__WEBPACK_IMPORTED_MODULE_1__create__["e" /* destroySub */])();
         //TODO: EXPLOSION ANIMATION
     });

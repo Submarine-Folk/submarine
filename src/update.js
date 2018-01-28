@@ -53,6 +53,7 @@ function update() {
     });
 
     game.physics.arcade.overlap(sub, mineGroup, function() {
+        score = 0;
         destroySub();
         //TODO: EXPLOSION ANIMATION
     });
