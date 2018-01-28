@@ -11,6 +11,7 @@ let platforms,
     treasureFound,
     mineWarning,
     sonarPing,
+    bgMusic,
     destroyTreasure,
     sonarSend;
 
@@ -20,10 +21,15 @@ function create() {
     game.add.sprite(0,0, 'Sky')
 
     //add game sounds
+    bgMusic = this.add.audio('water-music');
     sonarPing = this.add.audio('sonar-ping');
     sonarSend = this.add.audio('sonar-send');
     treasureFound = this.add.audio('treasure-found');
     mineWarning = this.add.audio('mine-warning');
+
+    //music
+    bgMusic.play();
+    bgMusic.volume = .75;
 
     //game physics enable
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -46,7 +52,7 @@ function create() {
         treasure.destroy();
     }
     
-    //weapon aka sonar
+    //weapon (sonar)
     let fire = (weapon, bullet) => {
         sonarSend.play();
     }

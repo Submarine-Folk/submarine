@@ -143,6 +143,7 @@ let platforms,
     treasureFound,
     mineWarning,
     sonarPing,
+    bgMusic,
     destroyTreasure,
     sonarSend;
 
@@ -152,10 +153,15 @@ function create() {
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.sprite(0,0, 'Sky')
 
     //add game sounds
+    bgMusic = this.add.audio('water-music');
     sonarPing = this.add.audio('sonar-ping');
     sonarSend = this.add.audio('sonar-send');
     treasureFound = this.add.audio('treasure-found');
     mineWarning = this.add.audio('mine-warning');
+
+    //music
+    bgMusic.play();
+    bgMusic.volume = .75;
 
     //game physics enable
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.startSystem(Phaser.Physics.ARCADE);
@@ -178,7 +184,7 @@ function create() {
         treasure.destroy();
     }
     
-    //weapon aka sonar
+    //weapon (sonar)
     let fire = (weapon, bullet) => {
         sonarSend.play();
     }
@@ -235,6 +241,7 @@ function preload() {
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('sonar-send', 'assets/sounds/wubwub.mp3');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('mine-warning', 'assets/sounds/mine-warning.wav');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('treasure-found', 'assets/sounds/treasure.mp3');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('water-music', 'assets/sounds/watery_cave.mp3');
 
     //game boundaries
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].world.setBounds(0, 0, 1280, 780);

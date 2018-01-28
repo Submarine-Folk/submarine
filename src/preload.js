@@ -15,6 +15,7 @@ function preload() {
     game.load.audio('sonar-send', 'assets/sounds/wubwub.mp3');
     game.load.audio('mine-warning', 'assets/sounds/mine-warning.wav');
     game.load.audio('treasure-found', 'assets/sounds/treasure.mp3');
+    game.load.audio('water-music', 'assets/sounds/watery_cave.mp3');
 
     //game boundaries
     game.world.setBounds(0, 0, 1280, 780);
