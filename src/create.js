@@ -126,13 +126,6 @@ function create() {
     weapon.onFire.add(fire); //plays sound on every fire event
     weapon.trackSprite(sub, 0, 0, false); //attaches weapon to sub
 
-    circle = game.add.sprite(100, 100, 'caret-circle')
-    game.physics.arcade.enable(circle);
-    circle.anchor.set(0.5);
-    circle.body.collideWorldBounds = true;
-    circle.body.drag.set(70);
-    circle.body.maxVelocity.set(100);
-
     //user input key    
     cursors = this.input.keyboard.addKeys( 
         { 
@@ -148,19 +141,17 @@ function create() {
     let presses = []
 
     cursors.left.onDown.add(() => {
-        presses.push('left')
+        presses.push('left');
 
         if(presses[presses.length - 2] !== 'left'){
-            circle.angle = 180;
             weapon.fireAngle = 180;
         }
     })
 
     cursors.right.onDown.add(() => {
-        presses.push('right')
+        presses.push('right');
 
         if(presses[presses.length - 2] !== 'right'  && presses.length !== 1){
-            circle.angle = 0;
             weapon.fireAngle = 0;
         }
     })
