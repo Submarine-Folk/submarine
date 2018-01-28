@@ -2,15 +2,16 @@
 'use strict';
 
 import { game } from './game';
-import { sub, cursors, weapon, fireButton, treasure, sonarPing, sonarSend } from './create'
+import { sub, cursors, weapon, fireButton, treasure, sonarPing, sonarSend, mineWarning, treasureFound, destroyTreasure } from './create'
 
 var deltaTime=0; 
 
 function update() {
 
-    //keeps game speed consistent
+    //keeps game speed consistent for slower or faster computers
     deltaTime = game.time.elapsed/1000; 
 
+    //user input
     if (cursors.up.isDown){
         sub.body.velocity.y = -150;
     } else if (cursors.down.isDown){
@@ -29,9 +30,16 @@ function update() {
 
     game.world.wrap(sub, 16);
 
+    //collisions and overlaps
     game.physics.arcade.overlap(weapon.bullets, treasure, function() {
         weapon.killAll();
         sonarPing.play();
+    });
+
+    game.physics.arcade.overlap(sub, treasure, function() {
+        treasureFound.play();
+        destroyTreasure();
+        //TODO: score updates. new treasure appears
     });
 
 };
