@@ -50,6 +50,7 @@ function create() {
     hooray = this.add.audio('hooray')
       
     sonarPing.volume = .2;
+    hooray.volume = .25;
   
     //music
     bgMusic.play();

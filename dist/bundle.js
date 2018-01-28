@@ -196,6 +196,7 @@ function create() {
     hooray = this.add.audio('hooray')
       
     sonarPing.volume = .2;
+    hooray.volume = .25;
   
     //music
     bgMusic.play();
@@ -531,7 +532,7 @@ function update() {
         score+= 10;
         Object(__WEBPACK_IMPORTED_MODULE_1__create__["f" /* destroyTreasure */])(a,b);
 
-        if (score >= 10){
+        if (score >= 40){
             score = 0;
             Object(__WEBPACK_IMPORTED_MODULE_1__create__["s" /* winRestart */])();
         }
