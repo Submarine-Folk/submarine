@@ -109,7 +109,7 @@ module.exports = function(src) {
 
 
 
-var game = new Phaser.Game(1280, 720, Phaser.AUTO, '', { preload: __WEBPACK_IMPORTED_MODULE_0__preload__["a" /* preload */], create: __WEBPACK_IMPORTED_MODULE_2__create__["b" /* create */], update: __WEBPACK_IMPORTED_MODULE_1__update__["a" /* update */] });
+var game = new Phaser.Game(1280, 720, Phaser.AUTO, '', { preload: __WEBPACK_IMPORTED_MODULE_0__preload__["a" /* preload */], create: __WEBPACK_IMPORTED_MODULE_2__create__["d" /* create */], update: __WEBPACK_IMPORTED_MODULE_1__update__["a" /* update */] });
 
 
 
@@ -118,18 +118,24 @@ var game = new Phaser.Game(1280, 720, Phaser.AUTO, '', { preload: __WEBPACK_IMPO
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return create; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return sub; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return cursors; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return weapon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return create; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return sub; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return cursors; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return weapon; });
 /* unused harmony export fireButton */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return treasure; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return sonarPing; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return treasure; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return sonarPing; });
 /* unused harmony export sonarSend */
 /* unused harmony export mineWarning */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return treasureFound; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return destroyTreasure; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return circle; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return treasureFound; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return destroyTreasure; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return circle; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return floor_walls; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return left_walls; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return right_walls; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return branches; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return algaes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return weeds; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(1);
 
 
@@ -147,7 +153,14 @@ let platforms,
     bgMusic,
     destroyTreasure,
     sonarSend,
-    circle;
+    circle,
+    floor_walls, floor_wall,
+    right_walls, right_wall,
+    left_walls, left_wall,
+    algaes, algae,
+    branches, branch,
+    weeds, weed
+    ;
 
 function create() {
 
@@ -230,6 +243,106 @@ function create() {
         }
     );
 
+    // Create 6 groups that will contain our objects
+    floor_walls = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.group();
+    right_walls = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.group();
+    left_walls = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.group();
+    algaes = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.group();
+    branches = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.group();
+    weeds = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.group();
+
+    // Design the level
+
+    const level = [
+      '................................',
+      '................................',
+      'l..............................l',
+      'l..............................l',
+      'l..ffffff...fffff...ff..ff.....r',
+      'l....ff.....f...f...f.ff.f.....r',
+      'l....ff.....fffff...f.ff.f.....r',
+      'l....ff.....f...f...f.ff.f.....r',
+      'l..ffff.....f...f...f....f.....r',
+      'l...a..b...w........a..b...w...r',
+      'l...a..b...w........a..b...w...r',
+      'l...a..b...w........a..b...w...r',
+      'l...a..b............a..........r',
+      'l...a..b...w...........b...w...r',
+      'l...a..b...w........a..b...w...r',
+      'l...a..b...w........a......w...r',
+      'l......b...w...........b.......r',
+      'l...a..b...w........a..b...w...r',
+      'l...a..b...w........a......w...r',
+      'l...a..b...w........a..b.......r',
+      'l...a..b...w...........b.......r',
+      'l...a..b...w........a..b...w...r',
+      'l...a..b...w........a..b...w...r',
+      'ffffffffffffffffffffffffffffffff'
+
+    ];
+
+
+    // Create the level by going through the array
+    for (var i = 0; i < level.length; i++) {
+        for (var j = 0; j < level[i].length; j++) {
+
+            // Create a floor wall and add it to the floor_walls group
+            if (level[i][j] == 'f') {
+                floor_wall = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.sprite(40*j, 30*i, 'floor_wall');
+                floor_wall.enableBody = true;
+                __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.enable(floor_wall, Phaser.Physics.ARCADE);
+                floor_wall.body.immovable = true; 
+                floor_walls.add(floor_wall);
+            }
+
+            // Create left wall
+            else if (level[i][j] == 'l') {
+                left_wall = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.sprite(40*j, 30*i, 'left_wall');
+                left_wall.enableBody = true;
+                __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.enable(left_wall, Phaser.Physics.ARCADE);
+                left_wall.body.immovable = true; 
+                left_walls.add(left_wall);
+            }
+
+            // Create right wall
+            else if (level[i][j] == 'r') {
+                right_wall = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.sprite(40*j, 30*i, 'right_wall');
+                right_wall.enableBody = true;
+                __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.enable(right_wall, Phaser.Physics.ARCADE);
+                right_wall.body.immovable = true; 
+                right_walls.add(right_wall);
+            }
+
+            // Create algae and add it to the algaes group
+            else if (level[i][j] == 'a') {
+                algae = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.sprite(40*j, 30*i, 'algae');
+                algae.enableBody = true;
+                __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.enable(algae, Phaser.Physics.ARCADE);
+                algae.body.immovable = false; 
+                algaes.add(algae);
+            }
+
+            // Create a branch and add it to the branches group
+            else if (level[i][j] == 'b') {
+                branch = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.sprite(40*j, 30*i, 'branch');
+                branch.enableBody = true;
+                __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.enable(branch, Phaser.Physics.ARCADE);
+                branch.body.immovable = false; 
+                branches.add(branch);
+            }
+
+            // Create a weed and add it to the weeds group
+            else if (level[i][j] == 'w') {
+                weed = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.sprite(40*j, 30*i, 'weed');
+                weed.enableBody = true;
+                __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.enable(weed, Phaser.Physics.ARCADE);
+                weed.body.immovable = false; 
+                weeds.add(weed);
+            }
+
+        }
+    }
+
     console.log(cursors.clockwise)
 }
 
@@ -262,6 +375,12 @@ function preload() {
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('soundwave', 'assets/img/sound.png');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('background', 'assets/img/background.png');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('midground', 'assets/img/midground.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('algae', 'assets/algae.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('branch', 'assets/branch.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('weed', 'assets/weed.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('floor_wall', 'assets/floor_wall.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('left_wall', 'assets/left_wall.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('right_wall', 'assets/right_wall.png');
 
     //sound assets
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('sonar-ping', 'assets/sounds/sonar.wav');
@@ -298,52 +417,58 @@ function update() {
     //keeps game speed consistent for slower or faster computers
     deltaTime = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].time.elapsed/1000; 
 
-    if (__WEBPACK_IMPORTED_MODULE_1__create__["c" /* cursors */].up.isDown){
-        __WEBPACK_IMPORTED_MODULE_1__create__["f" /* sub */].body.velocity.y = -150;
-        __WEBPACK_IMPORTED_MODULE_1__create__["a" /* circle */].body.velocity.y = -150;
-    } else if (__WEBPACK_IMPORTED_MODULE_1__create__["c" /* cursors */].down.isDown){
-        __WEBPACK_IMPORTED_MODULE_1__create__["f" /* sub */].body.velocity.y = 150;
-        __WEBPACK_IMPORTED_MODULE_1__create__["a" /* circle */].body.velocity.y = 150;
-    } else if (__WEBPACK_IMPORTED_MODULE_1__create__["c" /* cursors */].left.isDown) {
-        __WEBPACK_IMPORTED_MODULE_1__create__["f" /* sub */].loadTexture('sub-flip', 0);
-        __WEBPACK_IMPORTED_MODULE_1__create__["f" /* sub */].body.velocity.x = -150;
-        __WEBPACK_IMPORTED_MODULE_1__create__["a" /* circle */].body.velocity.x = -150;
-    } else if (__WEBPACK_IMPORTED_MODULE_1__create__["c" /* cursors */].right.isDown) {
-        __WEBPACK_IMPORTED_MODULE_1__create__["f" /* sub */].loadTexture('sub', 0);
-        __WEBPACK_IMPORTED_MODULE_1__create__["f" /* sub */].body.velocity.x = 150;
-        __WEBPACK_IMPORTED_MODULE_1__create__["a" /* circle */].body.velocity.x = 150;
+    if (__WEBPACK_IMPORTED_MODULE_1__create__["e" /* cursors */].up.isDown){
+        __WEBPACK_IMPORTED_MODULE_1__create__["k" /* sub */].body.velocity.y = -150;
+        __WEBPACK_IMPORTED_MODULE_1__create__["c" /* circle */].body.velocity.y = -150;
+    } else if (__WEBPACK_IMPORTED_MODULE_1__create__["e" /* cursors */].down.isDown){
+        __WEBPACK_IMPORTED_MODULE_1__create__["k" /* sub */].body.velocity.y = 150;
+        __WEBPACK_IMPORTED_MODULE_1__create__["c" /* circle */].body.velocity.y = 150;
+    } else if (__WEBPACK_IMPORTED_MODULE_1__create__["e" /* cursors */].left.isDown) {
+        __WEBPACK_IMPORTED_MODULE_1__create__["k" /* sub */].loadTexture('sub-flip', 0);
+        __WEBPACK_IMPORTED_MODULE_1__create__["k" /* sub */].body.velocity.x = -150;
+        __WEBPACK_IMPORTED_MODULE_1__create__["c" /* circle */].body.velocity.x = -150;
+    } else if (__WEBPACK_IMPORTED_MODULE_1__create__["e" /* cursors */].right.isDown) {
+        __WEBPACK_IMPORTED_MODULE_1__create__["k" /* sub */].loadTexture('sub', 0);
+        __WEBPACK_IMPORTED_MODULE_1__create__["k" /* sub */].body.velocity.x = 150;
+        __WEBPACK_IMPORTED_MODULE_1__create__["c" /* circle */].body.velocity.x = 150;
     }
 
-    __WEBPACK_IMPORTED_MODULE_1__create__["c" /* cursors */].left.onDown.add(() => {
-        __WEBPACK_IMPORTED_MODULE_1__create__["a" /* circle */].angle = 180;
-        __WEBPACK_IMPORTED_MODULE_1__create__["i" /* weapon */].fireAngle = 180;
+    __WEBPACK_IMPORTED_MODULE_1__create__["e" /* cursors */].left.onDown.add(() => {
+        __WEBPACK_IMPORTED_MODULE_1__create__["c" /* circle */].angle = 180;
+        __WEBPACK_IMPORTED_MODULE_1__create__["n" /* weapon */].fireAngle = 180;
     })
 
-    __WEBPACK_IMPORTED_MODULE_1__create__["c" /* cursors */].right.onDown.add(() => {
-        __WEBPACK_IMPORTED_MODULE_1__create__["a" /* circle */].angle = 0;
-        __WEBPACK_IMPORTED_MODULE_1__create__["i" /* weapon */].fireAngle = 0;
+    __WEBPACK_IMPORTED_MODULE_1__create__["e" /* cursors */].right.onDown.add(() => {
+        __WEBPACK_IMPORTED_MODULE_1__create__["c" /* circle */].angle = 0;
+        __WEBPACK_IMPORTED_MODULE_1__create__["n" /* weapon */].fireAngle = 0;
     })
 
-    if (__WEBPACK_IMPORTED_MODULE_1__create__["c" /* cursors */].clockwise.isDown){
-        __WEBPACK_IMPORTED_MODULE_1__create__["i" /* weapon */].fireAngle += 1;
-        __WEBPACK_IMPORTED_MODULE_1__create__["a" /* circle */].angle += 1;
-    } else if (__WEBPACK_IMPORTED_MODULE_1__create__["c" /* cursors */].couterClockwise.isDown){
-        __WEBPACK_IMPORTED_MODULE_1__create__["i" /* weapon */].fireAngle -= 1;
-        __WEBPACK_IMPORTED_MODULE_1__create__["a" /* circle */].angle -= 1;
+    if (__WEBPACK_IMPORTED_MODULE_1__create__["e" /* cursors */].clockwise.isDown){
+        __WEBPACK_IMPORTED_MODULE_1__create__["n" /* weapon */].fireAngle += 1;
+        __WEBPACK_IMPORTED_MODULE_1__create__["c" /* circle */].angle += 1;
+    } else if (__WEBPACK_IMPORTED_MODULE_1__create__["e" /* cursors */].couterClockwise.isDown){
+        __WEBPACK_IMPORTED_MODULE_1__create__["n" /* weapon */].fireAngle -= 1;
+        __WEBPACK_IMPORTED_MODULE_1__create__["c" /* circle */].angle -= 1;
     }
 
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.collide(__WEBPACK_IMPORTED_MODULE_1__create__["k" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["g" /* floor_walls */]);
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.collide(__WEBPACK_IMPORTED_MODULE_1__create__["k" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["h" /* left_walls */]);
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.collide(__WEBPACK_IMPORTED_MODULE_1__create__["k" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["i" /* right_walls */]);
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.collide(__WEBPACK_IMPORTED_MODULE_1__create__["k" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["a" /* algaes */]);
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.collide(__WEBPACK_IMPORTED_MODULE_1__create__["k" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["b" /* branches */]);
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.collide(__WEBPACK_IMPORTED_MODULE_1__create__["k" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["o" /* weeds */]);
 
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].world.wrap(__WEBPACK_IMPORTED_MODULE_1__create__["f" /* sub */], 16);
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].world.wrap(__WEBPACK_IMPORTED_MODULE_1__create__["k" /* sub */], 16);
 
     //collisions and overlaps
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["i" /* weapon */].bullets, __WEBPACK_IMPORTED_MODULE_1__create__["g" /* treasure */], function() {
-        __WEBPACK_IMPORTED_MODULE_1__create__["i" /* weapon */].killAll();
-        __WEBPACK_IMPORTED_MODULE_1__create__["e" /* sonarPing */].play();
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["n" /* weapon */].bullets, __WEBPACK_IMPORTED_MODULE_1__create__["l" /* treasure */], function() {
+        __WEBPACK_IMPORTED_MODULE_1__create__["n" /* weapon */].killAll();
+        __WEBPACK_IMPORTED_MODULE_1__create__["j" /* sonarPing */].play();
     });
 
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["f" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["g" /* treasure */], function() {
-        __WEBPACK_IMPORTED_MODULE_1__create__["h" /* treasureFound */].play();
-        Object(__WEBPACK_IMPORTED_MODULE_1__create__["d" /* destroyTreasure */])();
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["k" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["l" /* treasure */], function() {
+        __WEBPACK_IMPORTED_MODULE_1__create__["m" /* treasureFound */].play();
+        Object(__WEBPACK_IMPORTED_MODULE_1__create__["f" /* destroyTreasure */])();
         //TODO: score updates. new treasure appears
     });
 
