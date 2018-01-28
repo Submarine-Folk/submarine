@@ -230,7 +230,27 @@ function create() {
         }
     );
 
-    console.log(cursors.clockwise)
+    let presses = []
+
+    cursors.left.onDown.add(() => {
+        presses.push('left')
+
+        if(presses[presses.length - 2] !== 'left'){
+            circle.angle = 180;
+            weapon.fireAngle = 180;
+        }
+    })
+
+    cursors.right.onDown.add(() => {
+        presses.push('right')
+
+        if(presses[presses.length - 2] !== 'right'  && presses.length !== 1){
+            circle.angle = 0;
+            weapon.fireAngle = 0;
+        }
+    })
+
+
 }
 
  
@@ -313,16 +333,6 @@ function update() {
         __WEBPACK_IMPORTED_MODULE_1__create__["f" /* sub */].body.velocity.x = 150;
         __WEBPACK_IMPORTED_MODULE_1__create__["a" /* circle */].body.velocity.x = 150;
     }
-
-    __WEBPACK_IMPORTED_MODULE_1__create__["c" /* cursors */].left.onDown.add(() => {
-        __WEBPACK_IMPORTED_MODULE_1__create__["a" /* circle */].angle = 180;
-        __WEBPACK_IMPORTED_MODULE_1__create__["i" /* weapon */].fireAngle = 180;
-    })
-
-    __WEBPACK_IMPORTED_MODULE_1__create__["c" /* cursors */].right.onDown.add(() => {
-        __WEBPACK_IMPORTED_MODULE_1__create__["a" /* circle */].angle = 0;
-        __WEBPACK_IMPORTED_MODULE_1__create__["i" /* weapon */].fireAngle = 0;
-    })
 
     if (__WEBPACK_IMPORTED_MODULE_1__create__["c" /* cursors */].clockwise.isDown){
         __WEBPACK_IMPORTED_MODULE_1__create__["i" /* weapon */].fireAngle += 1;

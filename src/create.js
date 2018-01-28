@@ -97,7 +97,27 @@ function create() {
         }
     );
 
-    console.log(cursors.clockwise)
+    let presses = []
+
+    cursors.left.onDown.add(() => {
+        presses.push('left')
+
+        if(presses[presses.length - 2] !== 'left'){
+            circle.angle = 180;
+            weapon.fireAngle = 180;
+        }
+    })
+
+    cursors.right.onDown.add(() => {
+        presses.push('right')
+
+        if(presses[presses.length - 2] !== 'right'  && presses.length !== 1){
+            circle.angle = 0;
+            weapon.fireAngle = 0;
+        }
+    })
+
+
 }
 
 export { create, sub, cursors, weapon, fireButton, treasure, sonarPing, sonarSend, mineWarning, treasureFound, destroyTreasure, circle }; 
