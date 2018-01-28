@@ -14,9 +14,11 @@ function preload() {
     game.load.image('treasure', 'assets/diamond.png');
     game.load.image('torpedo', 'assets/img/submarine green/green torpedo type/torpedo normal green a 1.png');
     game.load.image('caret-circle', 'assets/img/caret-circle.png');
+    game.load.image('mine', 'assets/img/mine-small.png');
     game.load.image('soundwave', 'assets/img/sound.png');
     game.load.image('background', 'assets/img/background.png');
     game.load.image('midground', 'assets/img/midground.png');
+    game.load.image('explosion', 'assets/img/explosion/explosion-small.gif');
     game.load.image('algae', 'assets/algae.png');
     game.load.image('branch', 'assets/branch.png');
     game.load.image('weed', 'assets/weed.png');
@@ -27,7 +29,7 @@ function preload() {
     //sound assets
     game.load.audio('sonar-ping', 'assets/sounds/sonar.wav');
     game.load.audio('sonar-send', 'assets/sounds/wubwub.mp3');
-    game.load.audio('mine-warning', 'assets/sounds/mine-warning.wav');
+    game.load.audio('mine-warning', 'assets/sounds/mine-warning.mp3');
     game.load.audio('treasure-found', 'assets/sounds/treasure.mp3');
     game.load.audio('water-music', 'assets/sounds/watery_cave.mp3');
 
