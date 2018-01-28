@@ -2,7 +2,7 @@
 'use strict';
 
 import { game } from './game';
-import { sub, cursors, weapon, fireButton, treasure, sonarPing, sonarSend, mineWarning, treasureFound, destroyTreasure } from './create'
+import { sub, cursors, weapon, fireButton, treasure, sonarPing, sonarSend, mineWarning, treasureFound, destroyTreasure, circle } from './create'
 
 var deltaTime=0; 
 
@@ -11,22 +11,40 @@ function update() {
     //keeps game speed consistent for slower or faster computers
     deltaTime = game.time.elapsed/1000; 
 
-    //user input
     if (cursors.up.isDown){
         sub.body.velocity.y = -150;
+        circle.body.velocity.y = -150;
     } else if (cursors.down.isDown){
         sub.body.velocity.y = 150;
+        circle.body.velocity.y = 150;
     } else if (cursors.left.isDown) {
+        sub.loadTexture('sub-flip', 0);
         sub.body.velocity.x = -150;
+        circle.body.velocity.x = -150;
     } else if (cursors.right.isDown) {
+        sub.loadTexture('sub', 0);
         sub.body.velocity.x = 150;
+        circle.body.velocity.x = 150;
     }
+
+    cursors.left.onDown.add(() => {
+        circle.angle = 180;
+        weapon.fireAngle = 180;
+    })
+
+    cursors.right.onDown.add(() => {
+        circle.angle = 0;
+        weapon.fireAngle = 0;
+    })
 
     if (cursors.clockwise.isDown){
         weapon.fireAngle += 1;
+        circle.angle += 1;
     } else if (cursors.couterClockwise.isDown){
         weapon.fireAngle -= 1;
+        circle.angle -= 1;
     }
+
 
     game.world.wrap(sub, 16);
 
