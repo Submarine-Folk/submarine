@@ -33,6 +33,7 @@ function preload() {
     game.load.audio('treasure-found', 'assets/sounds/treasure.mp3');
     game.load.audio('water-music', 'assets/sounds/watery_cave.mp3');
     game.load.audio('explosion-sound', 'assets/sounds/explosion-sound.mp3')
+    game.load.audio('hooray', 'assets/sounds/hooray.wav')
 
     //game boundaries
     game.world.setBounds(0, 0, 1280, 780);

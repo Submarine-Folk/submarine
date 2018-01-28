@@ -26,6 +26,8 @@ let platforms,
     branches, branch,
     weeds, weed,
     explosionSound,
+    hooray,
+    winRestart,
     scoreText;
 
 function create() {
@@ -45,6 +47,7 @@ function create() {
     treasureFound = this.add.audio('treasure-found');
     mineWarning = this.add.audio('mine-warning');
     explosionSound = this.add.audio('explosion-sound');
+    hooray = this.add.audio('hooray')
       
     sonarPing.volume = .2;
   
@@ -82,7 +85,7 @@ function create() {
     
     treasureGroup = game.add.group();
 
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < 6; i++) {
         treasure = treasureGroup.create(200 * i, game.rnd.integerInRange(400, 650), 'treasure');
         treasure.enableBody = true;
         game.physics.arcade.enable(treasure, Phaser.Physics.ARCADE);
@@ -92,6 +95,11 @@ function create() {
     destroyTreasure = (a,b) => {
         console.log(treasureGroup,"A>>>B", a,b);
         treasureGroup.remove(b);
+    }
+
+    winRestart = () => {
+        hooray.play()
+        setTimeout(game.state.start('default'), 5000);
     }
 
     destroySub = () => {
@@ -129,23 +137,23 @@ function create() {
         }
     );
 
-    let presses = []
+    // let presses = []
 
-    cursors.left.onDown.add(() => {
-        presses.push('left');
+    // cursors.left.onDown.add(() => {
+    //     presses.push('left');
 
-        if(presses[presses.length - 2] !== 'left'){
-            weapon.fireAngle = 180;
-        }
-    })
+    //     if(presses[presses.length - 2] !== 'left'){
+    //         weapon.fireAngle = 180;
+    //     }
+    // })
 
-    cursors.right.onDown.add(() => {
-        presses.push('right');
+    // cursors.right.onDown.add(() => {
+    //     presses.push('right');
 
-        if(presses[presses.length - 2] !== 'right'  && presses.length !== 1){
-            weapon.fireAngle = 0;
-        }
-    })
+    //     if(presses[presses.length - 2] !== 'right'  && presses.length !== 1){
+    //         weapon.fireAngle = 0;
+    //     }
+    // })
 
 
     // Create 6 groups that will contain our objects
@@ -253,4 +261,4 @@ function create() {
 
 export { create, sub, cursors, weapon, fireButton, treasure, mineGroup, treasureGroup, sonarPing, sonarSend, destroySub, 
           mineWarning, treasureFound, destroyTreasure, circle, floor_walls, left_walls, right_walls,
-          branches, algaes, weeds, explosionSound, scoreText }; 
+          branches, algaes, weeds, explosionSound, scoreText, hooray, winRestart }; 
