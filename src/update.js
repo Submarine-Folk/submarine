@@ -4,7 +4,7 @@
 import { game } from './game';
 import { sub, cursors, weapon, fireButton, treasure, sonarPing, mine, mineGroup, treasureGroup,
     sonarSend, mineWarning, treasureFound, destroyTreasure, circle, destroySub,
-    floor_walls, left_walls, right_walls, branches, algaes, weeds } from './create'
+    floor_walls, left_walls, right_walls, branches, algaes, weeds, explosionSound } from './create'
 
 var deltaTime=0; 
 
@@ -52,9 +52,8 @@ function update() {
     });
 
     game.physics.arcade.overlap(sub, mineGroup, function() {
-        // destroySub();
+        destroySub();
         //TODO: EXPLOSION ANIMATION
-        mineWarning.play();
     });
 
     game.physics.arcade.overlap(sub, treasureGroup, function(a,b) {
