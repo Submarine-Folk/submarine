@@ -2,8 +2,8 @@
 'use strict';
 
 import { game } from './game';
-import { sub, cursors, weapon, fireButton, treasure, sonarPing, 
-    sonarSend, mineWarning, treasureFound, destroyTreasure, circle,
+import { sub, cursors, weapon, fireButton, treasure, sonarPing, mine, mineGroup, treasureGroup,
+    sonarSend, mineWarning, treasureFound, destroyTreasure, circle, destroySub,
     floor_walls, left_walls, right_walls, branches, algaes, weeds } from './create'
 
 var deltaTime=0; 
@@ -41,14 +41,25 @@ function update() {
     game.world.wrap(sub, 16);
 
     //collisions and overlaps
-    game.physics.arcade.overlap(weapon.bullets, treasure, function() {
+    game.physics.arcade.overlap(weapon.bullets, treasureGroup, function() {
         weapon.killAll();
         sonarPing.play();
     });
 
-    game.physics.arcade.overlap(sub, treasure, function() {
+    game.physics.arcade.overlap(weapon.bullets, mineGroup, function() {
+        weapon.killAll();
+        mineWarning.play();
+    });
+
+    game.physics.arcade.overlap(sub, mineGroup, function() {
+        // destroySub();
+        //TODO: EXPLOSION ANIMATION
+        mineWarning.play();
+    });
+
+    game.physics.arcade.overlap(sub, treasureGroup, function(a,b) {
         treasureFound.play();
-        destroyTreasure();
+        destroyTreasure(a,b);
         //TODO: score updates. new treasure appears
     });
 
