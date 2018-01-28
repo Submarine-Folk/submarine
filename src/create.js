@@ -22,7 +22,7 @@ function create() {
     treasure.enableBody = true;
     treasure.physicsBodyType = Phaser.Physics.ARCADE;
     
-    weapon = game.add.weapon(1, 'torpedo')
+    weapon = game.add.weapon(1, 'soundwave')
     weapon.physicsBodyType = Phaser.Physics.ARCADE;
     weapon.enableBody = true;
     weapon.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
@@ -43,13 +43,12 @@ function create() {
     //  The 'false' argument tells the weapon not track sprite rotation
     weapon.trackSprite(sprite, 0, 0, false);
 
-    circle = game.add.sprite(400, 300, 'circle')
+    circle = game.add.sprite(400, 300, 'caret-circle')
     game.physics.arcade.enable(circle);
     circle.anchor.set(0.5);
     circle.body.collideWorldBounds = true;
     circle.body.drag.set(70);
     circle.body.maxVelocity.set(100);
-    // circle.trackSprite(weapon, 0, 0, true)
     
     cursors = this.input.keyboard.addKeys( 
         { 

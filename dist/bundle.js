@@ -151,7 +151,7 @@ function create() {
     treasure.enableBody = true;
     treasure.physicsBodyType = Phaser.Physics.ARCADE;
     
-    weapon = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.weapon(1, 'torpedo')
+    weapon = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.weapon(1, 'soundwave')
     weapon.physicsBodyType = Phaser.Physics.ARCADE;
     weapon.enableBody = true;
     weapon.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
@@ -172,13 +172,12 @@ function create() {
     //  The 'false' argument tells the weapon not track sprite rotation
     weapon.trackSprite(sprite, 0, 0, false);
 
-    circle = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.sprite(400, 300, 'circle')
+    circle = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.sprite(400, 300, 'caret-circle')
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.enable(circle);
     circle.anchor.set(0.5);
     circle.body.collideWorldBounds = true;
     circle.body.drag.set(70);
     circle.body.maxVelocity.set(100);
-    // circle.trackSprite(weapon, 0, 0, true)
     
     cursors = this.input.keyboard.addKeys( 
         { 
@@ -213,11 +212,13 @@ function preload() {
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('sub', 'assets/img/submarine green/green submarine/type b/sg-b1.png');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('sub-flip', 'assets/img/submarine green/green submarine/type b/sg-b1-flip.png');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('circle', 'assets/img/circle.png')
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('caret-circle', 'assets/img/caret-circle.png')
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('soundwave', 'assets/img/sound.png')
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('Sky', 'assets/Sky.jpg');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('treasure', 'assets/diamond.png');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('torpedo', 'assets/img/submarine green/green torpedo type/torpedo normal green a 1.png');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('sonar-ping', 'assets/sounds/SONAR.WAV');
-    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].world.setBounds(0, 0, 1280, 780);
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].world.setBounds(0, 0, 1280, 720);
 
 }
 
