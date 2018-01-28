@@ -19,6 +19,12 @@ function preload() {
     game.load.image('background', 'assets/img/background.png');
     game.load.image('midground', 'assets/img/midground.png');
     game.load.image('explosion', 'assets/img/explosion/explosion-small.gif');
+    game.load.image('algae', 'assets/algae.png');
+    game.load.image('branch', 'assets/branch.png');
+    game.load.image('weed', 'assets/weed.png');
+    game.load.image('floor_wall', 'assets/floor_wall.png');
+    game.load.image('left_wall', 'assets/left_wall.png');
+    game.load.image('right_wall', 'assets/right_wall.png');
 
     //sound assets
     game.load.audio('sonar-ping', 'assets/sounds/sonar.wav');
