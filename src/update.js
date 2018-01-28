@@ -2,7 +2,9 @@
 'use strict';
 
 import { game } from './game';
-import { sub, cursors, weapon, fireButton, treasure, sonarPing, sonarSend, mineWarning, treasureFound, destroyTreasure, circle } from './create'
+import { sub, cursors, weapon, fireButton, treasure, sonarPing, 
+    sonarSend, mineWarning, treasureFound, destroyTreasure, circle,
+    floor_walls, left_walls, right_walls, branches, algaes, weeds } from './create'
 
 var deltaTime=0; 
 
@@ -35,6 +37,12 @@ function update() {
         circle.angle -= 1;
     }
 
+    game.physics.arcade.collide(sub, floor_walls);
+    game.physics.arcade.collide(sub, left_walls);
+    game.physics.arcade.collide(sub, right_walls);
+    game.physics.arcade.collide(sub, algaes);
+    game.physics.arcade.collide(sub, branches);
+    game.physics.arcade.collide(sub, weeds);
 
     game.world.wrap(sub, 16);
 
