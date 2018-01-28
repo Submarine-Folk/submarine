@@ -222,6 +222,8 @@ function create() {
             'couterClockwise': Phaser.KeyCode.LEFT
         }
     );
+
+    console.log(cursors.clockwise)
 }
 
  
@@ -243,6 +245,7 @@ function preload() {
     //image assets
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('sub', 'assets/img/submarine green/green submarine/type b/sg-b1.png');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('sub-flip', 'assets/img/submarine green/green submarine/type b/sg-b1-flip.png');
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('circle', 'assets/img/circle.png')
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('Sky', 'assets/Sky.jpg');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('treasure', 'assets/diamond.png');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.image('torpedo', 'assets/img/submarine green/green torpedo type/torpedo normal green a 1.png');

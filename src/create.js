@@ -89,6 +89,8 @@ function create() {
             'couterClockwise': Phaser.KeyCode.LEFT
         }
     );
+
+    console.log(cursors.clockwise)
 }
 
 export { create, sub, cursors, weapon, fireButton, treasure, sonarPing, sonarSend, mineWarning, treasureFound, destroyTreasure, circle }; 
