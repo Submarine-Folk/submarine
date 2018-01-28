@@ -53,12 +53,16 @@ function create() {
         treasure.destroy();
     }
     
+<<<<<<< HEAD
     //weapon (sonar)
     let fire = (weapon, bullet) => {
         sonarSend.play();
     }
 
     weapon = game.add.weapon(1, 'soundwave');
+=======
+    weapon = game.add.weapon(1, 'soundwave')
+>>>>>>> changed sonar direction img
     weapon.physicsBodyType = Phaser.Physics.ARCADE;
     weapon.enableBody = true;
     weapon.bulletKillType = Phaser.Weapon.KILL_LIFESPAN; //bullet disappears when it reaches lifespan distance
@@ -70,15 +74,26 @@ function create() {
     weapon.onFire.add(fire); //plays sound on every fire event
     weapon.trackSprite(sub, 0, 0, false); //attaches weapon to sub
 
+<<<<<<< HEAD
     // sub sonar pointer
+=======
+    //  Tell the Weapon to track the 'player' Sprite
+    //  The 'false' argument tells the weapon not track sprite rotation
+    weapon.trackSprite(sprite, 0, 0, false);
+
+>>>>>>> changed sonar direction img
     circle = game.add.sprite(400, 300, 'caret-circle')
     game.physics.arcade.enable(circle);
     circle.anchor.set(0.5);
     circle.body.collideWorldBounds = true;
     circle.body.drag.set(70);
     circle.body.maxVelocity.set(100);
+<<<<<<< HEAD
 
     //user input key    
+=======
+    
+>>>>>>> changed sonar direction img
     cursors = this.input.keyboard.addKeys( 
         { 
             'up': Phaser.KeyCode.W, 
