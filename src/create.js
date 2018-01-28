@@ -62,17 +62,14 @@ function create() {
 
     mineGroup = game.add.group();
 
-    for (var i = 0; i < 20; i++) {
-        mine = mineGroup.create(100 * i, game.rnd.integerInRange(200, 500), 'mine');
+    for (var i = 1; i < 20; i++) {
+        mine = mineGroup.create(87 * i, game.rnd.integerInRange(200, 500), 'mine');
         mine.enableBody = true;
         game.physics.arcade.enable(mine, Phaser.Physics.ARCADE);
         console.log(mine.body);
         mine.alpha = 0;
     }
 
-
-    //mine
-    // mine = game.add.sprite(800, 300, 'mine');
 
     //submarine
     sub = this.add.sprite(100, 100, 'sub');
@@ -86,7 +83,7 @@ function create() {
     
     treasureGroup = game.add.group();
 
-    for (var i = 0; i < 6; i++) {
+    for (var i = 1; i < 7; i++) {
         treasure = treasureGroup.create(200 * i, game.rnd.integerInRange(400, 650), 'treasure');
         treasure.enableBody = true;
         game.physics.arcade.enable(treasure, Phaser.Physics.ARCADE);
