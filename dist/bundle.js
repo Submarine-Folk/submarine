@@ -141,6 +141,8 @@ var game = new Phaser.Game(1280, 720, Phaser.AUTO, '', { preload: __WEBPACK_IMPO
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return weeds; });
 /* unused harmony export explosionSound */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return scoreText; });
+/* unused harmony export hooray */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return winRestart; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__game__ = __webpack_require__(1);
 
 
@@ -170,6 +172,8 @@ let platforms,
     branches, branch,
     weeds, weed,
     explosionSound,
+    hooray,
+    winRestart,
     scoreText;
 
 function create() {
@@ -189,6 +193,7 @@ function create() {
     treasureFound = this.add.audio('treasure-found');
     mineWarning = this.add.audio('mine-warning');
     explosionSound = this.add.audio('explosion-sound');
+    hooray = this.add.audio('hooray')
       
     sonarPing.volume = .2;
   
@@ -226,7 +231,7 @@ function create() {
     
     treasureGroup = __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].add.group();
 
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < 6; i++) {
         treasure = treasureGroup.create(200 * i, __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].rnd.integerInRange(400, 650), 'treasure');
         treasure.enableBody = true;
         __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.enable(treasure, Phaser.Physics.ARCADE);
@@ -236,6 +241,11 @@ function create() {
     destroyTreasure = (a,b) => {
         console.log(treasureGroup,"A>>>B", a,b);
         treasureGroup.remove(b);
+    }
+
+    winRestart = () => {
+        hooray.play()
+        setTimeout(__WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].state.start('default'), 5000);
     }
 
     destroySub = () => {
@@ -273,23 +283,23 @@ function create() {
         }
     );
 
-    let presses = []
+    // let presses = []
 
-    cursors.left.onDown.add(() => {
-        presses.push('left');
+    // cursors.left.onDown.add(() => {
+    //     presses.push('left');
 
-        if(presses[presses.length - 2] !== 'left'){
-            weapon.fireAngle = 180;
-        }
-    })
+    //     if(presses[presses.length - 2] !== 'left'){
+    //         weapon.fireAngle = 180;
+    //     }
+    // })
 
-    cursors.right.onDown.add(() => {
-        presses.push('right');
+    // cursors.right.onDown.add(() => {
+    //     presses.push('right');
 
-        if(presses[presses.length - 2] !== 'right'  && presses.length !== 1){
-            weapon.fireAngle = 0;
-        }
-    })
+    //     if(presses[presses.length - 2] !== 'right'  && presses.length !== 1){
+    //         weapon.fireAngle = 0;
+    //     }
+    // })
 
 
     // Create 6 groups that will contain our objects
@@ -440,6 +450,7 @@ function preload() {
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('treasure-found', 'assets/sounds/treasure.mp3');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('water-music', 'assets/sounds/watery_cave.mp3');
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('explosion-sound', 'assets/sounds/explosion-sound.mp3')
+    __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].load.audio('hooray', 'assets/sounds/hooray.wav')
 
     //game boundaries
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].world.setBounds(0, 0, 1280, 780);
@@ -513,11 +524,17 @@ function update() {
         //TODO: EXPLOSION ANIMATION
     });
 
+    __WEBPACK_IMPORTED_MODULE_1__create__["l" /* scoreText */].setText('SCORE: '+score)
+
     __WEBPACK_IMPORTED_MODULE_0__game__["a" /* game */].physics.arcade.overlap(__WEBPACK_IMPORTED_MODULE_1__create__["n" /* sub */], __WEBPACK_IMPORTED_MODULE_1__create__["p" /* treasureGroup */], function(a,b) {
         __WEBPACK_IMPORTED_MODULE_1__create__["o" /* treasureFound */].play();
         score+= 10;
-        __WEBPACK_IMPORTED_MODULE_1__create__["l" /* scoreText */].setText('SCORE: '+score)
         Object(__WEBPACK_IMPORTED_MODULE_1__create__["f" /* destroyTreasure */])(a,b);
+
+        if (score >= 10){
+            score = 0;
+            Object(__WEBPACK_IMPORTED_MODULE_1__create__["s" /* winRestart */])();
+        }
         //TODO: score updates. new treasure appears
     });
 
